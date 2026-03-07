@@ -86,12 +86,12 @@ export default function Navbar() {
                 {/* Desktop Nav */}
                 <nav className="hidden xl:flex items-center gap-1">
                     {navLinks.map((link) => (
-                        <div key={link.label} className="relative group">
+                        <div key={link.label} className="relative group py-4">
                             <Link
                                 href={link.href}
                                 className={`px-4 py-2 text-sm font-body font-medium tracking-wide transition-colors duration-150 rounded-sm flex items-center gap-1 ${url.startsWith(link.href) && link.href !== '/' || url === link.href
                                     ? 'text-teal-400'
-                                    : 'text-slate-300 hover:text-white'
+                                    : 'text-slate-300 group-hover:text-white'
                                     }`}
                             >
                                 {link.label}
@@ -100,7 +100,7 @@ export default function Navbar() {
 
                             {/* Dropdown Menu */}
                             {link.children && (
-                                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-100 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left -translate-y-2 group-hover:translate-y-0 z-50 overflow-hidden">
+                                <div className="absolute top-full left-0 w-56 bg-white border border-slate-100 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left -translate-y-2 group-hover:translate-y-0 z-50 overflow-hidden">
                                     <div className="py-2">
                                         {link.children.map(child => (
                                             <Link

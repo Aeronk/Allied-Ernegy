@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { Link, usePage, router } from '@inertiajs/react';
-import { Head } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
+import { Link, usePage, router, Head } from '@inertiajs/react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const navItems = [
     { href: '/admin', label: 'Dashboard', icon: '⬡' },
@@ -24,9 +25,19 @@ export default function AdminLayout({ children, title }) {
         router.post('/logout');
     };
 
+    useEffect(() => {
+        if (props.flash?.success) {
+            toast.success(props.flash.success);
+        }
+        if (props.flash?.error) {
+            toast.error(props.flash.error);
+        }
+    }, [props.flash]);
+
     return (
         <>
             <Head title={`${title} — Admin`} />
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={true} />
             <div className="min-h-screen bg-slate-50 flex">
                 {/* Sidebar */}
                 <aside className={`
