@@ -41,10 +41,13 @@ class ServiceController extends Controller
 
     public function update(Request $request, Service $service): RedirectResponse
     {
-        $data = $request->except('image');
+        $data = $request->except(['image', 'icon']);
         if ($request->hasFile('image')) {
             if ($service->image_path) Storage::disk('public')->delete($service->image_path);
             $data['image_path'] = $request->file('image')->store('services', 'public');
+        }
+        if ($request->hasFile('icon')) {
+            $data['icon'] = $request->file('icon')->store('services/icons', 'public');
         }
         $service->update($data);
         return redirect()->route('admin.services.index')->with('success', 'Service updated.');
