@@ -32,28 +32,28 @@ class TeamMemberController extends Controller
         return redirect()->route('admin.team-members.index')->with('success', 'TeamMember created.');
     }
 
-    public function edit(TeamMember $model): Response
+    public function edit(TeamMember $team_member): Response
     {
         return Inertia::render('Admin/TeamMembers/Form', [
-            'item' => array_merge($model->toArray(), ['image' => $model->image]),
+            'item' => array_merge($team_member->toArray(), ['image' => $team_member->image]),
         ]);
     }
 
-    public function update(Request $request, TeamMember $model): RedirectResponse
+    public function update(Request $request, TeamMember $team_member): RedirectResponse
     {
         $data = $request->except('image');
         if ($request->hasFile('image')) {
-            if ($model->image_path) Storage::disk('public')->delete($model->image_path);
+            if ($team_member->image_path) Storage::disk('public')->delete($team_member->image_path);
             $data['image_path'] = $request->file('image')->store('team-members', 'public');
         }
-        $model->update($data);
+        $team_member->update($data);
         return redirect()->route('admin.team-members.index')->with('success', 'TeamMember updated.');
     }
 
-    public function destroy(TeamMember $model): RedirectResponse
+    public function destroy(TeamMember $team_member): RedirectResponse
     {
-        if ($model->image_path) Storage::disk('public')->delete($model->image_path);
-        $model->delete();
+        if ($team_member->image_path) Storage::disk('public')->delete($team_member->image_path);
+        $team_member->delete();
         return redirect()->route('admin.team-members.index')->with('success', 'TeamMember deleted.');
     }
 }

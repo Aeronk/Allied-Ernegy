@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { ChevronDown } from 'lucide-react';
+import { Popover, Transition } from '@headlessui/react';
 
 export default function Navbar() {
     const { url, props } = usePage();
@@ -87,32 +88,56 @@ export default function Navbar() {
                 <nav className="hidden xl:flex items-center gap-1">
                     {navLinks.map((link) => (
                         <div key={link.label} className="relative group py-4">
-                            <Link
-                                href={link.href}
-                                className={`px-4 py-2 text-sm font-body font-medium tracking-wide transition-colors duration-150 rounded-sm flex items-center gap-1 ${url.startsWith(link.href) && link.href !== '/' || url === link.href
-                                    ? 'text-teal-400'
-                                    : 'text-slate-300 group-hover:text-white'
-                                    }`}
-                            >
-                                {link.label}
-                                {link.children && <ChevronDown className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-transform group-hover:rotate-180" />}
-                            </Link>
-
-                            {/* Dropdown Menu */}
-                            {link.children && (
-                                <div className="absolute top-full left-0 w-56 bg-white border border-slate-100 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left -translate-y-2 group-hover:translate-y-0 z-50 overflow-hidden">
-                                    <div className="py-2">
-                                        {link.children.map(child => (
-                                            <Link
-                                                key={child.label}
-                                                href={child.href}
-                                                className={`block px-5 py-2.5 text-sm font-body transition-colors ${url === child.href ? 'text-teal-600 bg-teal-50/50 font-semibold' : 'text-slate-600 hover:text-teal-600 hover:bg-slate-50'}`}
+                            {link.children ? (
+                                <Popover className="relative">
+                                    {({ open }) => (
+                                        <>
+                                            <Popover.Button
+                                                className={`outline-none px-4 py-2 text-sm font-body font-medium tracking-wide transition-colors duration-150 rounded-sm flex items-center gap-1 ${url.startsWith(link.href) && link.href !== '/' || url === link.href || open
+                                                    ? 'text-teal-400'
+                                                    : 'text-slate-300 hover:text-white'
+                                                    }`}
                                             >
-                                                {child.label}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                </div>
+                                                {link.label}
+                                                <ChevronDown className={`w-3.5 h-3.5 opacity-60 transition-transform ${open ? 'rotate-180 opacity-100' : 'group-hover:opacity-100'}`} />
+                                            </Popover.Button>
+
+                                            <Transition
+                                                as={React.Fragment}
+                                                enter="transition ease-out duration-200"
+                                                enterFrom="opacity-0 translate-y-1"
+                                                enterTo="opacity-100 translate-y-0"
+                                                leave="transition ease-in duration-150"
+                                                leaveFrom="opacity-100 translate-y-0"
+                                                leaveTo="opacity-0 translate-y-1"
+                                            >
+                                                <Popover.Panel className="absolute top-full left-0 mt-2 w-56 bg-white border border-slate-100 shadow-xl rounded-lg z-50 overflow-hidden">
+                                                    <div className="py-2 flex flex-col">
+                                                        {link.children.map(child => (
+                                                            <Link
+                                                                key={child.label}
+                                                                href={child.href}
+                                                                className={`block px-5 py-2.5 text-sm font-body transition-colors ${url === child.href ? 'text-teal-600 bg-teal-50/50 font-semibold' : 'text-slate-600 hover:text-teal-600 hover:bg-slate-50'}`}
+                                                            >
+                                                                {child.label}
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </Popover.Panel>
+                                            </Transition>
+                                        </>
+                                    )}
+                                </Popover>
+                            ) : (
+                                <Link
+                                    href={link.href}
+                                    className={`px-4 py-2 text-sm font-body font-medium tracking-wide transition-colors duration-150 rounded-sm flex items-center gap-1 ${url.startsWith(link.href) && link.href !== '/' || url === link.href
+                                        ? 'text-teal-400'
+                                        : 'text-slate-300 hover:text-white'
+                                        }`}
+                                >
+                                    {link.label}
+                                </Link>
                             )}
                         </div>
                     ))}

@@ -13,7 +13,11 @@ class PartnerController extends Controller
     public function index(): Response
     {
         return Inertia::render('Admin/Partners/Index', [
-            'items' => Partner::orderBy('order')->get(),
+            'items' => Partner::orderBy('order')->get()->map(function($p) {
+                $data = $p->toArray();
+                $data['logo_url'] = $p->image;
+                return $data;
+            }),
         ]);
     }
 
