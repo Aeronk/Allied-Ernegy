@@ -40,7 +40,14 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
         @viteReactRefresh
-        @vite(['resources/js/app.jsx', "resources/js/pages/{$page['component']}.jsx", "resources/js/pages/{$page['component']}.tsx"])
+        @php
+            $pageComponent = $page['component'];
+            $pagePath = "resources/js/pages/{$pageComponent}.tsx";
+            if (!file_exists(resource_path("js/pages/{$pageComponent}.tsx"))) {
+                $pagePath = "resources/js/pages/{$pageComponent}.jsx";
+            }
+        @endphp
+        @vite(['resources/js/app.jsx', $pagePath])
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
