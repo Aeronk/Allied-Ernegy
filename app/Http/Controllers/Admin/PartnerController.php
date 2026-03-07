@@ -32,28 +32,28 @@ class PartnerController extends Controller
         return redirect()->route('admin.partners.index')->with('success', 'Partner created.');
     }
 
-    public function edit(Partner $model): Response
+    public function edit(Partner $partner): Response
     {
         return Inertia::render('Admin/Partners/Form', [
-            'item' => array_merge($model->toArray(), ['image' => $model->image]),
+            'item' => array_merge($partner->toArray(), ['image' => $partner->image]),
         ]);
     }
 
-    public function update(Request $request, Partner $model): RedirectResponse
+    public function update(Request $request, Partner $partner): RedirectResponse
     {
         $data = $request->except('image');
         if ($request->hasFile('image')) {
-            if ($model->image_path) Storage::disk('public')->delete($model->image_path);
+            if ($partner->image_path) Storage::disk('public')->delete($partner->image_path);
             $data['image_path'] = $request->file('image')->store('partners', 'public');
         }
-        $model->update($data);
+        $partner->update($data);
         return redirect()->route('admin.partners.index')->with('success', 'Partner updated.');
     }
 
-    public function destroy(Partner $model): RedirectResponse
+    public function destroy(Partner $partner): RedirectResponse
     {
-        if ($model->image_path) Storage::disk('public')->delete($model->image_path);
-        $model->delete();
+        if ($partner->image_path) Storage::disk('public')->delete($partner->image_path);
+        $partner->delete();
         return redirect()->route('admin.partners.index')->with('success', 'Partner deleted.');
     }
 }

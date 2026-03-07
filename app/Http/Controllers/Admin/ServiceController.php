@@ -32,28 +32,28 @@ class ServiceController extends Controller
         return redirect()->route('admin.services.index')->with('success', 'Service created.');
     }
 
-    public function edit(Service $model): Response
+    public function edit(Service $service): Response
     {
         return Inertia::render('Admin/Services/Form', [
-            'item' => array_merge($model->toArray(), ['image' => $model->image]),
+            'item' => array_merge($service->toArray(), ['image' => $service->image]),
         ]);
     }
 
-    public function update(Request $request, Service $model): RedirectResponse
+    public function update(Request $request, Service $service): RedirectResponse
     {
         $data = $request->except('image');
         if ($request->hasFile('image')) {
-            if ($model->image_path) Storage::disk('public')->delete($model->image_path);
+            if ($service->image_path) Storage::disk('public')->delete($service->image_path);
             $data['image_path'] = $request->file('image')->store('services', 'public');
         }
-        $model->update($data);
+        $service->update($data);
         return redirect()->route('admin.services.index')->with('success', 'Service updated.');
     }
 
-    public function destroy(Service $model): RedirectResponse
+    public function destroy(Service $service): RedirectResponse
     {
-        if ($model->image_path) Storage::disk('public')->delete($model->image_path);
-        $model->delete();
+        if ($service->image_path) Storage::disk('public')->delete($service->image_path);
+        $service->delete();
         return redirect()->route('admin.services.index')->with('success', 'Service deleted.');
     }
 }

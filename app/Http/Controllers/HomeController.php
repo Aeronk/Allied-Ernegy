@@ -49,9 +49,24 @@ class HomeController extends Controller
             'homeStats' => json_decode(ContentSetting::get('home_stats', '[]'), true),
             'homeProcess' => json_decode(ContentSetting::get('home_process', '[]'), true),
             'homeImpact' => json_decode(ContentSetting::get('home_impact', '[]'), true),
-            'homeTestimonials' => json_decode(ContentSetting::get('home_testimonials', '[]'), true),
+            'homeTestimonials' => \App\Models\Testimonial::where('is_active', true)->orderBy('order')->get()->map(fn($t) => [
+                'quote' => $t->quote,
+                'author' => $t->name,
+                'role' => $t->role,
+                'image' => $t->image_url,
+            ]),
             'homeFaqs' => json_decode(ContentSetting::get('home_faqs', '[]'), true),
             'homeGlobal' => json_decode(ContentSetting::get('home_global', '[]'), true),
+            // New dynamic sections
+            'pioneeringTitle' => ContentSetting::get('home_pioneering_title', 'Pioneering the Future of Clean Power'),
+            'pioneeringText1' => ContentSetting::get('home_pioneering_text1', 'Allied Energies Ltd is dedicated to unlocking the immense power of ocean waves to produce clean, sustainable electricity for homes, industries, and hydrogen production.'),
+            'pioneeringText2' => ContentSetting::get('home_pioneering_text2', 'By harnessing cutting-edge marine energy technologies, we are building a more resilient and sustainable energy landscape, ensuring a greener future for generations to come.'),
+            'pioneeringImage' => ContentSetting::get('home_pioneering_image') 
+                ? asset('storage/' . ContentSetting::get('home_pioneering_image')) 
+                : 'https://images.unsplash.com/photo-1466611653911-954ff21b6748?auto=format&fit=crop&q=80&w=1000',
+            'impactTitle' => ContentSetting::get('home_impact_title', 'Our Environmental Impact'),
+            'impactDesc' => ContentSetting::get('home_impact_desc', "We don't just generate power; we protect our planet. Our wave energy solutions are designed to be completely eco-friendly, ensuring that we preserve marine ecosystems while providing the energy the world needs."),
+            'impactBullets' => json_decode(ContentSetting::get('home_impact_bullets', '["Zero noise pollution for marine life", "No visual impact on coastal horizons", "Scalable solutions for remote coastal communities", "Reinforcing energy security through diversification"]'), true),
         ]);
     }
 }

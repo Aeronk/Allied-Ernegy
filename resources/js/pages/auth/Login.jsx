@@ -1,6 +1,9 @@
-import { useForm, Head } from '@inertiajs/react';
+import { useForm, Head, usePage } from '@inertiajs/react';
 
 export default function Login({ errors: pageErrors = {} }) {
+    const { props } = usePage();
+    const settings = props.settings || {};
+
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
@@ -28,15 +31,21 @@ export default function Login({ errors: pageErrors = {} }) {
                     {/* Logo */}
                     <div className="text-center mb-10">
                         <div className="inline-flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10">
-                                <svg viewBox="0 0 32 32" fill="none" className="w-full h-full">
-                                    <path d="M4 20 C8 12, 14 8, 16 16 C18 24, 24 20, 28 12"
-                                        stroke="#2dd4bf" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-                                    <path d="M4 24 C8 16, 14 12, 16 20 C18 28, 24 24, 28 16"
-                                        stroke="#0ea5e9" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.6"/>
-                                </svg>
-                            </div>
-                            <span className="font-display text-white text-2xl">Allied Energies</span>
+                            {settings.site_logo ? (
+                                <img src={settings.site_logo} alt={settings.site_name || 'Allied Energies'} className="h-12 w-auto object-contain mx-auto" />
+                            ) : (
+                                <>
+                                    <div className="w-10 h-10">
+                                        <svg viewBox="0 0 32 32" fill="none" className="w-full h-full">
+                                            <path d="M4 20 C8 12, 14 8, 16 16 C18 24, 24 20, 28 12"
+                                                stroke="#2dd4bf" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                                            <path d="M4 24 C8 16, 14 12, 16 20 C18 28, 24 24, 28 16"
+                                                stroke="#0ea5e9" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.6" />
+                                        </svg>
+                                    </div>
+                                    <span className="font-display text-white text-2xl">{settings.site_name || 'Allied Energies'}</span>
+                                </>
+                            )}
                         </div>
                         <p className="text-slate-400 text-sm">CMS Administration Portal</p>
                     </div>

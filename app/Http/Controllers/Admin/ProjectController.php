@@ -42,26 +42,26 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.index')->with('success', 'Project created.');
     }
 
-    public function edit(Project $model): Response
+    public function edit(Project $project): Response
     {
         return Inertia::render('Admin/Projects/Form', [
-            'item' => array_merge($model->toArray(), [
-                'image' => $model->image,
-                'gallery_urls' => collect($model->gallery ?? [])->map(fn($path) => asset('storage/' . $path))->toArray(),
+            'item' => array_merge($project->toArray(), [
+                'image' => $project->image,
+                'gallery_urls' => collect($project->gallery ?? [])->map(fn($path) => asset('storage/' . $path))->toArray(),
             ]),
         ]);
     }
 
-    public function update(Request $request, Project $model): RedirectResponse
+    public function update(Request $request, Project $project): RedirectResponse
     {
         $data = $request->except(['image', 'gallery_images', 'deleted_gallery_images']);
         
         if ($request->hasFile('image')) {
-            if ($model->image_path) Storage::disk('public')->delete($model->image_path);
+            if ($project->image_path) Storage::disk('public')->delete($project->image_path);
             $data['image_path'] = $request->file('image')->store('projects', 'public');
         }
 
-        $currentGallery = $model->gallery ?? [];
+        $currentGallery = $project->gallery ?? [];
         
         // Handle deletions (by path)
         if ($request->has('deleted_gallery_images')) {
@@ -89,21 +89,21 @@ class ProjectController extends Controller
         
         $data['gallery'] = $currentGallery;
 
-        $model->update($data);
+        $project->update($data);
         return redirect()->route('admin.projects.index')->with('success', 'Project updated.');
     }
 
-    public function destroy(Project $model): RedirectResponse
+    public function destroy(Project $project): RedirectResponse
     {
-        if ($model->image_path) Storage::disk('public')->delete($model->image_path);
+        if ($project->image_path) Storage::disk('public')->delete($project->image_path);
         
-        if (is_array($model->gallery)) {
-            foreach ($model->gallery as $path) {
+        if (is_array($project->gallery)) {
+            foreach ($project->gallery as $path) {
                 Storage::disk('public')->delete($path);
             }
         }
 
-        $model->delete();
+        $project->delete();
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted.');
     }
 }

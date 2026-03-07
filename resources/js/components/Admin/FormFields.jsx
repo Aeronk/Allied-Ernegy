@@ -1,4 +1,5 @@
 // Shared admin form field components
+import React from 'react';
 
 export function Field({ label, error, required, children }) {
     return (

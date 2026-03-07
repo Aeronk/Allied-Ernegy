@@ -29,6 +29,13 @@ class PageSettingsController extends Controller
         foreach ($request->all() as $key => $value) {
             if ($key === '_token' || $key === '_method') continue;
             
+            // Handle file uploads
+            if ($request->hasFile($key)) {
+                $path = $request->file($key)->store('settings', 'public');
+                ContentSetting::set($key, $path, 'text');
+                continue;
+            }
+
             // If the incoming data is a JSON array string from the FormData
             // Make sure to convert it back to an array to store cleanly or keep as string depending on usage
             if (is_string($value) && str_starts_with(trim($value), '[')) {

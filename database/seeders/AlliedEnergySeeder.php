@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\TeamMember;
 use App\Models\BlogPost;
 use App\Models\ContentSetting;
+use App\Models\Testimonial;
 use Illuminate\Support\Str;
 
 class AlliedEnergySeeder extends Seeder
@@ -27,6 +28,7 @@ class AlliedEnergySeeder extends Seeder
         $this->seedBlogPosts();
         $this->seedContentSettings();
         $this->seedSiteSettings();
+        $this->seedTestimonials();
     }
 
     private function seedHeroSlides(): void
@@ -335,26 +337,6 @@ class AlliedEnergySeeder extends Seeder
                 ['label' => 'Marine Life Protection', 'value' => '100%', 'icon' => 'Shield', 'color' => 'bg-primary'],
                 ['label' => 'Local Jobs Created', 'value' => '2,500+', 'icon' => 'User', 'color' => 'bg-secondary'],
             ],
-            'home_testimonials' => [
-                [
-                    'quote' => "Allied Energies is redefining what's possible in the marine energy sector. Their commitment to sustainability and technical excellence is unmatched.",
-                    'author' => "Dr. Sarah Jenkins",
-                    'role' => "Marine Energy Researcher",
-                    'image' => "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200"
-                ],
-                [
-                    'quote' => "The integration of wave energy into our harbour infrastructure has been a game-changer for our local energy security and net-zero goals.",
-                    'author' => "James MacLeod",
-                    'role' => "Port Authority Director",
-                    'image' => "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200"
-                ],
-                [
-                    'quote' => "A visionary company with a practical approach. Their vortex turbine technology is a breakthrough for micro-hydro power generation.",
-                    'author' => "Elena Rodriguez",
-                    'role' => "Renewable Energy Consultant",
-                    'image' => "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200"
-                ]
-            ],
             'home_faqs' => [
                 [
                     'question' => "What makes wave energy reliable?",
@@ -386,6 +368,41 @@ class AlliedEnergySeeder extends Seeder
                 ['key' => $key],
                 ['value' => json_encode($value), 'type' => 'json']
             );
+        }
+    }
+
+    private function seedTestimonials(): void
+    {
+        $testimonials = [
+            [
+                'quote' => "Allied Energies is redefining what's possible in the marine energy sector. Their commitment to sustainability and technical excellence is unmatched.",
+                'name' => "Dr. Sarah Jenkins",
+                'role' => "Marine Energy Researcher",
+                'image_path' => null, // Would require downloading the image to storage if we seeded images as files, 
+                // but since the original seeder used a URL, we'll need to adapt the model to handle URLs or just leave it null for testing
+                'order' => 1,
+                'is_active' => true,
+            ],
+            [
+                'quote' => "The integration of wave energy into our harbour infrastructure has been a game-changer for our local energy security and net-zero goals.",
+                'name' => "James MacLeod",
+                'role' => "Port Authority Director",
+                'image_path' => null,
+                'order' => 2,
+                'is_active' => true,
+            ],
+            [
+                'quote' => "A visionary company with a practical approach. Their vortex turbine technology is a breakthrough for micro-hydro power generation.",
+                'name' => "Elena Rodriguez",
+                'role' => "Renewable Energy Consultant",
+                'image_path' => null,
+                'order' => 3,
+                'is_active' => true,
+            ]
+        ];
+
+        foreach ($testimonials as $t) {
+            Testimonial::updateOrCreate(['name' => $t['name']], $t);
         }
     }
 

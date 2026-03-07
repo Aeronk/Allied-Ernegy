@@ -18,9 +18,19 @@ export default function Pages({ contentSettings = {} }) {
         home_stats: stringify(contentSettings.home_stats),
         home_process: stringify(contentSettings.home_process),
         home_impact: stringify(contentSettings.home_impact),
-        home_testimonials: stringify(contentSettings.home_testimonials),
         home_faqs: stringify(contentSettings.home_faqs),
         home_global: stringify(contentSettings.home_global),
+
+        // Pioneering Section
+        home_pioneering_title: contentSettings.home_pioneering_title ?? 'Pioneering the Future of Clean Power',
+        home_pioneering_text1: contentSettings.home_pioneering_text1 ?? 'Allied Energies Ltd is dedicated to unlocking the immense power of ocean waves to produce clean, sustainable electricity for homes, industries, and hydrogen production.',
+        home_pioneering_text2: contentSettings.home_pioneering_text2 ?? 'By harnessing cutting-edge marine energy technologies, we are building a more resilient and sustainable energy landscape, ensuring a greener future for generations to come.',
+        home_pioneering_image: null,
+
+        // Impact Section
+        home_impact_title: contentSettings.home_impact_title ?? 'Our Environmental Impact',
+        home_impact_desc: contentSettings.home_impact_desc ?? "We don't just generate power; we protect our planet. Our wave energy solutions are designed to be completely eco-friendly, ensuring that we preserve marine ecosystems while providing the energy the world needs.",
+        home_impact_bullets: stringify(contentSettings.home_impact_bullets ?? ["Zero noise pollution for marine life", "No visual impact on coastal horizons", "Scalable solutions for remote coastal communities", "Reinforcing energy security through diversification"]),
 
         // About Page
         about_mission_title: contentSettings.about_mission_title ?? 'Turning Tides Into Terawatts',
@@ -32,15 +42,17 @@ export default function Pages({ contentSettings = {} }) {
         e.preventDefault();
 
         // Validate JSON before submitting
-        const jsonFields = ['home_stats', 'home_process', 'home_impact', 'home_testimonials', 'home_faqs', 'home_global'];
+        const jsonFields = ['home_stats', 'home_process', 'home_impact', 'home_faqs', 'home_global', 'home_impact_bullets'];
 
         // We need to parse back into arrays to submit as JSON to backend
         let payload = { ...data };
         try {
             jsonFields.forEach(field => {
-                const parsed = JSON.parse(data[field]);
-                if (!Array.isArray(parsed)) throw new Error(`${field} must be an array`);
-                payload[field] = parsed;
+                if (payload[field]) {
+                    const parsed = JSON.parse(payload[field]);
+                    if (!Array.isArray(parsed)) throw new Error(`${field} must be an array`);
+                    payload[field] = parsed;
+                }
             });
         } catch (err) {
             toast.error('Invalid JSON in one of the fields: ' + err.message);
@@ -48,7 +60,11 @@ export default function Pages({ contentSettings = {} }) {
         }
 
         import('@inertiajs/react').then(({ router }) => {
-            router.put('/admin/pages', payload, {
+            router.post('/admin/pages', {
+                _method: 'PUT',
+                ...payload
+            }, {
+                forceFormData: true,
                 onSuccess: () => toast.success('Page content updated successfully!'),
                 onError: () => toast.error('Failed to update page content.'),
             });
@@ -93,6 +109,47 @@ export default function Pages({ contentSettings = {} }) {
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <FormCard title="Pioneering the Future">
+                                <div className="space-y-4">
+                                    <Field label="Section Title">
+                                        <Input value={data.home_pioneering_title} onChange={e => setData('home_pioneering_title', e.target.value)} />
+                                    </Field>
+                                    <Field label="Paragraph 1">
+                                        <Textarea value={data.home_pioneering_text1} onChange={e => setData('home_pioneering_text1', e.target.value)} rows={3} />
+                                    </Field>
+                                    <Field label="Paragraph 2">
+                                        <Textarea value={data.home_pioneering_text2} onChange={e => setData('home_pioneering_text2', e.target.value)} rows={3} />
+                                    </Field>
+                                    <Field label="Image (Optional)">
+                                        {contentSettings.home_pioneering_image && (
+                                            <div className="mb-2">
+                                                <img src={`/storage/${contentSettings.home_pioneering_image}`} alt="Current" className="w-32 rounded-lg" />
+                                            </div>
+                                        )}
+                                        <input type="file" onChange={e => setData('home_pioneering_image', e.target.files[0])} className="w-full text-sm" accept="image/*" />
+                                    </Field>
+                                </div>
+                            </FormCard>
+
+                            <FormCard title="Environmental Impact">
+                                <div className="space-y-4 mb-4">
+                                    <Field label="Section Title">
+                                        <Input value={data.home_impact_title} onChange={e => setData('home_impact_title', e.target.value)} />
+                                    </Field>
+                                    <Field label="Description">
+                                        <Textarea value={data.home_impact_desc} onChange={e => setData('home_impact_desc', e.target.value)} rows={3} />
+                                    </Field>
+                                </div>
+                                <Field label="Metric Boxes - JSON Array (label, value, icon, color)">
+                                    <Textarea value={data.home_impact} onChange={e => setData('home_impact', e.target.value)} rows={6} className="font-mono text-xs" />
+                                </Field>
+                                <div className="mt-4">
+                                    <Field label="Bullet Points - JSON Array of strings">
+                                        <Textarea value={data.home_impact_bullets} onChange={e => setData('home_impact_bullets', e.target.value)} rows={4} className="font-mono text-xs" />
+                                    </Field>
+                                </div>
+                            </FormCard>
+
                             <FormCard title="Home Stats (Hero Bottom)">
                                 <Field label="JSON Array of Objects (label, value, icon)">
                                     <Textarea value={data.home_stats} onChange={e => setData('home_stats', e.target.value)} rows={10} className="font-mono text-xs" />
@@ -102,18 +159,6 @@ export default function Pages({ contentSettings = {} }) {
                             <FormCard title="Process Steps">
                                 <Field label="JSON Array of Objects (title, description, icon)">
                                     <Textarea value={data.home_process} onChange={e => setData('home_process', e.target.value)} rows={10} className="font-mono text-xs" />
-                                </Field>
-                            </FormCard>
-
-                            <FormCard title="Impact Metrics">
-                                <Field label="JSON Array (label, value, icon, color)">
-                                    <Textarea value={data.home_impact} onChange={e => setData('home_impact', e.target.value)} rows={10} className="font-mono text-xs" />
-                                </Field>
-                            </FormCard>
-
-                            <FormCard title="Testimonials">
-                                <Field label="JSON Array (quote, author, role, image)">
-                                    <Textarea value={data.home_testimonials} onChange={e => setData('home_testimonials', e.target.value)} rows={10} className="font-mono text-xs" />
                                 </Field>
                             </FormCard>
 

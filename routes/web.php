@@ -44,6 +44,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('projects', ProjectController::class)->except(['show']);
     Route::resource('team-members', TeamMemberController::class)->except(['show']);
     Route::resource('blog', BlogPostController::class)->except(['show']);
+    Route::resource('testimonials', TestimonialController::class)->except(['show']);
     Route::get('contacts', [ContactMessageController::class, 'index'])->name('contacts.index');
     Route::resource('contacts', ContactMessageController::class)->except(['create', 'store', 'index']);
     Route::get('pages', [PageSettingsController::class, 'index'])->name('pages.index');

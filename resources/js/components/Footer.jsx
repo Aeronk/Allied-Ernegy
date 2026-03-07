@@ -21,7 +21,11 @@ export default function Footer({ settings: directSettings }) {
                         <Link href="/" className="flex items-center gap-3 mb-4">
                             <div className="w-8 h-8 flex items-center justify-center">
                                 {settings.site_logo ? (
-                                    <img src={`/storage/${settings.site_logo}`} alt={settings.site_name} className="w-full h-full object-contain" />
+                                    <img
+                                        src={settings.site_logo.startsWith('http') || settings.site_logo.startsWith('/storage') ? settings.site_logo : `/storage/${settings.site_logo}`}
+                                        alt={settings.site_name}
+                                        className="w-full h-full object-contain filter brightness-0 invert"
+                                    />
                                 ) : (
                                     <svg viewBox="0 0 32 32" fill="none" className="w-full h-full">
                                         <path d="M4 20 C8 12, 14 8, 16 16 C18 24, 24 20, 28 12"

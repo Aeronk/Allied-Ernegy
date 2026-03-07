@@ -163,8 +163,8 @@ const Process = ({ steps = [] }) => {
     );
 };
 
-const Impact = ({ stats = [] }) => {
-    if (!stats || stats.length === 0) return null;
+const Impact = ({ stats = [], title, desc, bullets = [] }) => {
+    if ((!stats || stats.length === 0) && (!bullets || bullets.length === 0)) return null;
     return (
         <section className="py-24 bg-white overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
@@ -175,18 +175,18 @@ const Impact = ({ stats = [] }) => {
                         viewport={{ once: true }}
                     >
                         <h2 className="text-4xl md:text-5xl font-bold mb-8 text-slate-900">
-                            Our Environmental <span className="text-primary">Impact</span>
+                            {title || <>Our Environmental <span className="text-primary">Impact</span></>}
                         </h2>
                         <p className="text-lg text-slate-600 mb-10 leading-relaxed">
-                            We don't just generate power; we protect our planet. Our wave energy solutions are designed to be completely eco-friendly, ensuring that we preserve marine ecosystems while providing the energy the world needs.
+                            {desc}
                         </p>
                         <div className="space-y-6">
-                            {[
+                            {(bullets.length > 0 ? bullets : [
                                 "Zero noise pollution for marine life",
                                 "No visual impact on coastal horizons",
                                 "Scalable solutions for remote coastal communities",
                                 "Reinforcing energy security through diversification"
-                            ].map((item, idx) => (
+                            ]).map((item, idx) => (
                                 <div key={idx} className="flex items-center gap-4">
                                     <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center text-primary">
                                         <CheckCircle className="w-4 h-4" />
@@ -325,7 +325,14 @@ const Home = ({
     homeImpact = [],
     homeTestimonials = [],
     homeFaqs = [],
-    homeGlobal = []
+    homeGlobal = [],
+    pioneeringTitle,
+    pioneeringText1,
+    pioneeringText2,
+    pioneeringImage,
+    impactTitle,
+    impactDesc,
+    impactBullets,
 }) => {
     return (
         <PublicLayout settings={settings}>
@@ -343,13 +350,13 @@ const Home = ({
                                 viewport={{ once: true }}
                             >
                                 <h2 className="text-4xl md:text-5xl font-bold mb-8 text-slate-900">
-                                    Pioneering the Future of <span className="text-primary">Clean Power</span>
+                                    {pioneeringTitle || <>Pioneering the Future of <span className="text-primary">Clean Power</span></>}
                                 </h2>
                                 <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                                    Allied Energies Ltd is dedicated to unlocking the immense power of ocean waves to produce clean, sustainable electricity for homes, industries, and hydrogen production.
+                                    {pioneeringText1}
                                 </p>
                                 <p className="text-slate-600 mb-10 leading-relaxed">
-                                    By harnessing cutting-edge marine energy technologies, we are building a more resilient and sustainable energy landscape, ensuring a greener future for generations to come.
+                                    {pioneeringText2}
                                 </p>
                                 <Link href="/about" className="btn-primary inline-flex items-center gap-2">
                                     Our Story <ArrowRight className="w-5 h-5" />
@@ -363,7 +370,7 @@ const Home = ({
                             >
                                 <div className="aspect-video rounded-3xl overflow-hidden shadow-2xl">
                                     <img
-                                        src="https://images.unsplash.com/photo-1466611653911-954ff21b6748?auto=format&fit=crop&q=80&w=1000"
+                                        src={pioneeringImage || "https://images.unsplash.com/photo-1466611653911-954ff21b6748?auto=format&fit=crop&q=80&w=1000"}
                                         alt="Marine Energy"
                                         className="w-full h-full object-cover"
                                         referrerPolicy="no-referrer"
@@ -379,7 +386,12 @@ const Home = ({
                 </section>
 
                 <Process steps={homeProcess} />
-                <Impact stats={homeImpact} />
+                <Impact
+                    stats={homeImpact}
+                    title={impactTitle}
+                    desc={impactDesc}
+                    bullets={impactBullets}
+                />
 
                 {/* Technology Preview */}
                 <section className="py-24 bg-slate-50 relative">
@@ -434,26 +446,42 @@ const Home = ({
 
                 {/* Partners Preview */}
                 {partners && partners.length > 0 && (
-                    <section className="py-24 bg-white border-y border-slate-100 relative">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-500"></div>
-                        <div className="max-w-7xl mx-auto px-8">
-                            <div className="text-center mb-16">
-                                <div className="w-12 h-1 bg-orange-400 rounded-full mb-4 mx-auto"></div>
-                                <h2 className="text-3xl font-bold text-slate-900 mb-4">Strategic Partners</h2>
-                                <p className="text-slate-600">Collaborating with world leaders to drive the energy transition.</p>
+                    <section className="py-24 bg-slate-50 border-y border-slate-100 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-slate-100 to-transparent pointer-events-none z-10"></div>
+                        <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-slate-100 to-transparent pointer-events-none z-10"></div>
+                        <div className="max-w-7xl mx-auto px-8 relative z-20">
+                            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                                <div className="max-w-2xl">
+                                    <div className="w-12 h-1 bg-orange-500 rounded-full mb-4"></div>
+                                    <h2 className="text-4xl font-bold text-slate-900 mb-4">Strategic Partners</h2>
+                                    <p className="text-lg text-slate-600">Collaborating with world leaders to drive the clean energy transition.</p>
+                                </div>
                             </div>
-                            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                                {partners.map((partner) => (
-                                    <div key={partner.name} className="flex flex-col items-center gap-2">
-                                        {partner.logo_url ? (
-                                            <img src={partner.logo_url} alt={partner.name} className="h-12 object-contain" />
-                                        ) : (
-                                            <>
-                                                <span className="font-display font-bold text-xl text-slate-900">{partner.name}</span>
-                                                <div className="h-1 w-8 bg-primary rounded-full" />
-                                            </>
-                                        )}
-                                    </div>
+
+                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                                {partners.map((partner, idx) => (
+                                    <motion.div
+                                        key={partner.name}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: idx * 0.1 }}
+                                        className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-slate-100 flex items-center justify-center aspect-[3/2] group"
+                                    >
+                                        <a href={partner.url || '#'} target="_blank" rel="noopener noreferrer" className="w-full h-full flex flex-col items-center justify-center gap-3">
+                                            {partner.logo_url ? (
+                                                <img
+                                                    src={partner.logo_url}
+                                                    alt={partner.name}
+                                                    className="max-h-16 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                                                />
+                                            ) : (
+                                                <div className="text-center">
+                                                    <span className="font-display font-bold text-lg text-slate-800 group-hover:text-primary transition-colors">{partner.name}</span>
+                                                </div>
+                                            )}
+                                        </a>
+                                    </motion.div>
                                 ))}
                             </div>
                         </div>

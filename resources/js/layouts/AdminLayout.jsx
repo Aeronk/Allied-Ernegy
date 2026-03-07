@@ -10,6 +10,7 @@ const navItems = [
     { href: '/admin/projects', label: 'Projects', icon: '⬠' },
     { href: '/admin/team-members', label: 'Team', icon: '○' },
     { href: '/admin/blog', label: 'Blog Posts', icon: '▭' },
+    { href: '/admin/testimonials', label: 'Testimonials', icon: '❝' },
     { href: '/admin/contacts', label: 'Messages', icon: '△' },
     { href: '/admin/pages', label: 'Site Content', icon: '▤' },
     { href: '/admin/settings', label: 'Settings', icon: '◎' },
