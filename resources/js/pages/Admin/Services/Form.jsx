@@ -46,7 +46,7 @@ export default function ServiceForm({ item = null }) {
                             </div>
                         </FormCard>
                         <FormCard title="Service Image">
-                            <ImageUpload current={item?.image_url} onChange={e => setData('image', e.target.files[0])} />
+                            <ImageUpload current={item?.image} onChange={e => setData('image', e.target.files[0])} />
                         </FormCard>
                         <FormCard title="Icon">
                             <ImageUpload current={item?.icon_url} onChange={e => setData('icon', e.target.files[0])} label="Icon Image (SVG or PNG)" />

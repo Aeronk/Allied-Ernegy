@@ -15,6 +15,8 @@ class BlogPost extends Model
         'category', 'author', 'published_at', 'is_published', 'is_featured', 'order',
     ];
 
+    protected $appends = ['image'];
+
     protected $casts = [
         'is_published' => 'boolean',
         'is_featured' => 'boolean',

@@ -86,7 +86,7 @@ export default function HeroSlideForm({ item = null }) {
 
                         <FormCard title="Background Image">
                             <ImageUpload
-                                current={item?.image_url}
+                                current={item?.image}
                                 onChange={e => setData('image', e.target.files[0])}
                             />
                         </FormCard>

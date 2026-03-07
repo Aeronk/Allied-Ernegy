@@ -86,7 +86,7 @@ export default function BlogForm({ item = null }) {
                         </FormCard>
 
                         <FormCard title="Cover Image">
-                            <ImageUpload current={item?.image_url} onChange={e => setData('image', e.target.files[0])} />
+                            <ImageUpload current={item?.image} onChange={e => setData('image', e.target.files[0])} />
                         </FormCard>
                     </div>
                 </div>

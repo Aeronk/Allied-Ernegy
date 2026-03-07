@@ -16,6 +16,8 @@ class HeroSlide extends Model
         'order', 'is_active',
     ];
 
+    protected $appends = ['image'];
+
     protected $casts = [
         'is_active' => 'boolean',
         'order' => 'integer',

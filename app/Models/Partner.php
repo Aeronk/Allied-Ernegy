@@ -14,6 +14,8 @@ class Partner extends Model
         'logo_path', 'order', 'is_active', 'is_featured',
     ];
 
+    protected $appends = ['image'];
+
     protected $casts = ['is_active' => 'boolean', 'is_featured' => 'boolean', 'order' => 'integer'];
 
     public function scopeActive($query) { return $query->where('is_active', true)->orderBy('order'); }

@@ -13,7 +13,7 @@ export default function PartnerForm({ item = null }) {
         order: item?.order ?? 0,
         is_active: item?.is_active ?? true,
         is_featured: item?.is_featured ?? false,
-        logo: null,
+        image: null,
     });
 
     const submit = (e) => {
@@ -57,7 +57,7 @@ export default function PartnerForm({ item = null }) {
                             </div>
                         </FormCard>
                         <FormCard title="Logo">
-                            <ImageUpload current={item?.logo_url} onChange={e => setData('logo', e.target.files[0])} label="Partner Logo" />
+                            <ImageUpload current={item?.logo_url} onChange={e => setData('image', e.target.files[0])} label="Partner Logo" />
                         </FormCard>
                     </div>
                 </div>

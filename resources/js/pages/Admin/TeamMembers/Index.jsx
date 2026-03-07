@@ -7,8 +7,8 @@ export function TeamIndex({ items = [] }) {
     const rows = items.map(m => ({
         id: m.id,
         cells: [
-            m.image_url
-                ? <img src={m.image_url} alt={m.name} className="w-10 h-10 object-cover rounded-full" />
+            m.image
+                ? <img src={m.image} alt={m.name} className="w-10 h-10 object-cover rounded-full" />
                 : <div className="w-10 h-10 bg-navy-900 rounded-full flex items-center justify-center text-teal-400 font-display">{m.name[0]}</div>,
             <span className="font-medium text-navy-900">{m.name}</span>,
             <span className="text-slate-600">{m.role}</span>,
@@ -78,7 +78,7 @@ export function TeamForm({ item = null }) {
                             </div>
                         </FormCard>
                         <FormCard title="Profile Photo">
-                            <ImageUpload current={item?.image_url} onChange={e => setData('image', e.target.files[0])} />
+                            <ImageUpload current={item?.image} onChange={e => setData('image', e.target.files[0])} />
                         </FormCard>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ export function ProjectsIndex({ items = [] }) {
     const rows = items.map(p => ({
         id: p.id,
         cells: [
-            p.image_url ? <img src={p.image_url} alt={p.title} className="w-16 h-10 object-cover rounded-sm" /> : '—',
+            p.image ? <img src={p.image} alt={p.title} className="w-16 h-10 object-cover rounded-sm" /> : '—',
             <span className="font-medium text-navy-900">{p.title}</span>,
             p.location ?? '—',
             p.capacity ?? '—',
@@ -126,7 +126,7 @@ export function ProjectForm({ item = null }) {
                             </div>
                         </FormCard>
                         <FormCard title="Cover Image">
-                            <ImageUpload current={item?.image_url} onChange={e => setData('image', e.target.files[0])} />
+                            <ImageUpload current={item?.image} onChange={e => setData('image', e.target.files[0])} />
                         </FormCard>
                         <FormCard title="Gallery">
                             <MultiImageUpload

@@ -5,8 +5,8 @@ export default function HeroSlidesIndex({ items = [] }) {
     const rows = items.map(slide => ({
         id: slide.id,
         cells: [
-            slide.image_url
-                ? <img src={slide.image_url} alt={slide.title} className="w-16 h-10 object-cover rounded-sm" />
+            slide.image
+                ? <img src={slide.image} alt={slide.title} className="w-16 h-10 object-cover rounded-sm" />
                 : <div className="w-16 h-10 bg-slate-100 rounded-sm flex items-center justify-center text-slate-400 text-xs">No img</div>,
             <span className="font-medium text-navy-900">{slide.title}</span>,
             <span className="text-slate-500">{slide.subtitle}</span>,

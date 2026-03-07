@@ -14,6 +14,8 @@ class Service extends Model
         'image_url', 'image_path', 'order', 'is_active',
     ];
 
+    protected $appends = ['image'];
+
     protected $casts = ['is_active' => 'boolean', 'order' => 'integer'];
 
     public function scopeActive($query) { return $query->where('is_active', true)->orderBy('order'); }

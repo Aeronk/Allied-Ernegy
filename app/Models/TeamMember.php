@@ -14,6 +14,8 @@ class TeamMember extends Model
         'linkedin_url', 'email', 'order', 'is_active',
     ];
 
+    protected $appends = ['image'];
+
     protected $casts = ['is_active' => 'boolean', 'order' => 'integer'];
 
     public function scopeActive($query) { return $query->where('is_active', true)->orderBy('order'); }
