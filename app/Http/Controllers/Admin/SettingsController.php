@@ -12,14 +12,19 @@ class SettingsController extends Controller
     public function index(): Response
     {
         return Inertia::render('Admin/Settings', [
-            'settings' => SiteSetting::all()->groupBy('group')->toArray(),
+            'settings' => SiteSetting::pluck('value', 'key')->toArray(),
         ]);
     }
 
     public function update(Request $request): RedirectResponse
     {
-        foreach ($request->except('_token', '_method') as $key => $value) {
-            SiteSetting::set($key, $value);
+        foreach ($request->all() as $key => $value) {
+            if ($request->hasFile($key)) {
+                $path = $request->file($key)->store('settings', 'public');
+                SiteSetting::set($key, $path);
+            } else if ($value !== null && $key !== '_token' && $key !== '_method') {
+                SiteSetting::set($key, $value);
+            }
         }
         return redirect()->back()->with('success', 'Settings saved successfully.');
     }

@@ -1,8 +1,8 @@
 import AdminLayout from '@/layouts/AdminLayout';
 import ResourceTable from '@/components/Admin/ResourceTable';
 
-export default function HeroSlidesIndex({ slides = [] }) {
-    const rows = slides.map(slide => ({
+export default function HeroSlidesIndex({ items = [] }) {
+    const rows = items.map(slide => ({
         id: slide.id,
         cells: [
             slide.image_url

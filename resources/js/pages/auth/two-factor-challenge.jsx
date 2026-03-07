@@ -13,20 +13,16 @@ import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
 import AuthLayout from '@/layouts/auth-layout';
 
 export default function TwoFactorChallenge() {
-    const [showRecoveryInput, setShowRecoveryInput] = useState<boolean>(false);
+    const [showRecoveryInput, setShowRecoveryInput] = useState(false);
     const { data, setData, post, processing, errors, clearErrors } = useForm({
         code: '',
         recovery_code: '',
     });
 
-    const setCode = (val: string) => setData('code', val);
+    const setCode = (val) => setData('code', val);
     const code = data.code;
 
-    const authConfigContent = useMemo<{
-        title: string;
-        description: string;
-        toggleText: string;
-    }>(() => {
+    const authConfigContent = useMemo(() => {
         if (showRecoveryInput) {
             return {
                 title: 'Recovery Code',
@@ -44,13 +40,13 @@ export default function TwoFactorChallenge() {
         };
     }, [showRecoveryInput]);
 
-    const toggleRecoveryMode = (): void => {
+    const toggleRecoveryMode = () => {
         setShowRecoveryInput(!showRecoveryInput);
         clearErrors();
         setCode('');
     };
 
-    const submit = (e: React.FormEvent) => {
+    const submit = (e) => {
         e.preventDefault();
         post('/two-factor-challenge');
     };

@@ -16,4 +16,21 @@ class ProjectsController extends Controller
             ]),
         ]);
     }
+
+    public function show(Project $project): Response
+    {
+        return Inertia::render('Project/Show', [
+            'project' => [
+                'id' => $project->id, 
+                'title' => $project->title, 
+                'location' => $project->location,
+                'description' => $project->description, 
+                'full_description' => $project->full_description,
+                'image_url' => $project->image, 
+                'status' => $project->status,
+                'capacity' => $project->capacity ?? '',
+                'gallery_urls' => collect($project->gallery ?? [])->map(fn($path) => asset('storage/' . $path))->toArray(),
+            ]
+        ]);
+    }
 }

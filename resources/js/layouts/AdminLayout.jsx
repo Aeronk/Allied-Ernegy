@@ -11,6 +11,7 @@ const navItems = [
     { href: '/admin/team-members', label: 'Team', icon: '○' },
     { href: '/admin/blog', label: 'Blog Posts', icon: '▭' },
     { href: '/admin/contacts', label: 'Messages', icon: '△' },
+    { href: '/admin/pages', label: 'Site Content', icon: '▤' },
     { href: '/admin/settings', label: 'Settings', icon: '◎' },
 ];
 
@@ -33,20 +34,26 @@ export default function AdminLayout({ children, title }) {
                     lg:relative lg:translate-x-0
                 `}>
                     {/* Logo */}
-                    <div className="px-6 py-6 border-b border-navy-700">
+                    <div className="px-6 py-4 border-b border-navy-700 min-h-[5rem] flex items-center">
                         <Link href="/" className="flex items-center gap-3">
-                            <div className="w-7 h-7">
-                                <svg viewBox="0 0 32 32" fill="none" className="w-full h-full">
-                                    <path d="M4 20 C8 12, 14 8, 16 16 C18 24, 24 20, 28 12"
-                                        stroke="#2dd4bf" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-                                    <path d="M4 24 C8 16, 14 12, 16 20 C18 28, 24 24, 28 16"
-                                        stroke="#0ea5e9" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.6"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <span className="font-display text-white text-base">Allied Energies</span>
-                                <span className="block text-teal-400 text-[9px] tracking-widest uppercase font-body">CMS Admin</span>
-                            </div>
+                            {props.settings?.site_logo ? (
+                                <img src={props.settings.site_logo} alt="Site Logo" className="max-h-12 w-auto object-contain" />
+                            ) : (
+                                <>
+                                    <div className="w-7 h-7">
+                                        <svg viewBox="0 0 32 32" fill="none" className="w-full h-full">
+                                            <path d="M4 20 C8 12, 14 8, 16 16 C18 24, 24 20, 28 12"
+                                                stroke="#2dd4bf" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                                            <path d="M4 24 C8 16, 14 12, 16 20 C18 28, 24 24, 28 16"
+                                                stroke="#0ea5e9" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.6" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <span className="font-display text-white text-base">Allied Energies</span>
+                                        <span className="block text-teal-400 text-[9px] tracking-widest uppercase font-body">CMS Admin</span>
+                                    </div>
+                                </>
+                            )}
                         </Link>
                     </div>
 
@@ -58,11 +65,10 @@ export default function AdminLayout({ children, title }) {
                                 <Link
                                     key={href}
                                     href={href}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-sm text-sm font-body font-medium mb-0.5 transition-colors ${
-                                        active
-                                            ? 'bg-teal-500/20 text-teal-400'
-                                            : 'text-slate-400 hover:text-white hover:bg-navy-700'
-                                    }`}
+                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-sm text-sm font-body font-medium mb-0.5 transition-colors ${active
+                                        ? 'bg-teal-500/20 text-teal-400'
+                                        : 'text-slate-400 hover:text-white hover:bg-navy-700'
+                                        }`}
                                 >
                                     <span className="text-base w-5 text-center">{icon}</span>
                                     {label}

@@ -17,14 +17,17 @@ use App\Http\Controllers\Admin\TeamMemberController;
 use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\PageSettingsController;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/offer', [OfferController::class, 'index'])->name('offer');
+Route::get('/offer', [OfferController::class, 'index'])->name('offer.index');
+Route::get('/offer/{slug}', [OfferController::class, 'show'])->name('offer.show');
 Route::get('/partners', [PartnersController::class, 'index'])->name('partners');
-Route::get('/projects', [ProjectsController::class, 'index'])->name('projects');
+Route::get('/projects', [ProjectsController::class, 'index'])->name('projects.index');
+Route::get('/projects/{project}', [ProjectsController::class, 'show'])->name('projects.show');
 Route::get('/team', [TeamController::class, 'index'])->name('team');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
@@ -41,8 +44,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('projects', ProjectController::class)->except(['show']);
     Route::resource('team-members', TeamMemberController::class)->except(['show']);
     Route::resource('blog', BlogPostController::class)->except(['show']);
-    Route::resource('contacts', ContactMessageController::class)->except(['create', 'store']);
+    Route::get('contacts', [ContactMessageController::class, 'index'])->name('contacts.index');
+    Route::resource('contacts', ContactMessageController::class)->except(['create', 'store', 'index']);
+    Route::get('pages', [PageSettingsController::class, 'index'])->name('pages.index');
+    Route::post('pages', [PageSettingsController::class, 'update'])->name('pages.update');
     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
-    Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::post('settings', [SettingsController::class, 'update'])->name('settings.update');
 });
 

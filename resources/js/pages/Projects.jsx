@@ -32,10 +32,10 @@ export default function Projects({ projects = [], settings = {} }) {
                                         ) : (
                                             <div className="absolute inset-0 flex items-center justify-center p-8">
                                                 <svg viewBox="0 0 120 80" className="w-full opacity-20">
-                                                    {[0,1,2].map(j => (
+                                                    {[0, 1, 2].map(j => (
                                                         <path key={j}
-                                                            d={`M0,${30 + j*10} C30,${15 + j*5} 60,${45 + j*5} 90,${30 + j*10} C105,${22 + j*5} 113,${32 + j*5} 120,${30 + j*10}`}
-                                                            stroke="#2dd4bf" strokeWidth="2" fill="none"/>
+                                                            d={`M0,${30 + j * 10} C30,${15 + j * 5} 60,${45 + j * 5} 90,${30 + j * 10} C105,${22 + j * 5} 113,${32 + j * 5} 120,${30 + j * 10}`}
+                                                            stroke="#2dd4bf" strokeWidth="2" fill="none" />
                                                     ))}
                                                 </svg>
                                             </div>
@@ -46,9 +46,11 @@ export default function Projects({ projects = [], settings = {} }) {
                                     </div>
 
                                     {/* Content */}
-                                    <div className="lg:col-span-3 p-8 lg:p-10">
+                                    <div className="lg:col-span-3 p-8 lg:p-10 flex flex-col h-full">
                                         <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-                                            <h2 className="font-display text-2xl text-navy-900">{project.title}</h2>
+                                            <h2 className="font-display text-2xl text-navy-900 group-hover:text-primary transition-colors">
+                                                <Link href={`/projects/${project.id}`}>{project.title}</Link>
+                                            </h2>
                                             {project.status && (
                                                 <span className={`text-xs font-body font-semibold tracking-wide uppercase px-3 py-1 rounded-full ${statusColors[project.status] ?? statusColors.planning}`}>
                                                     {project.status}
@@ -69,18 +71,14 @@ export default function Projects({ projects = [], settings = {} }) {
                                         </div>
 
                                         {project.description && (
-                                            <p className="text-slate-600 text-sm leading-relaxed">{project.description}</p>
+                                            <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">{project.description}</p>
                                         )}
 
-                                        {project.technologies && (
-                                            <div className="mt-5 flex flex-wrap gap-2">
-                                                {(Array.isArray(project.technologies) ? project.technologies : [project.technologies]).map(t => (
-                                                    <span key={t} className="text-xs bg-ocean-50 text-ocean-700 px-3 py-1 rounded-sm font-body">
-                                                        {t}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        )}
+                                        <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                                            <Link href={`/projects/${project.id}`} className="text-primary font-bold text-sm inline-flex items-center gap-2 hover:gap-3 transition-all">
+                                                View Project Details →
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             ))}

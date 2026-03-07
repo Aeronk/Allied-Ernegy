@@ -79,6 +79,71 @@ export function ImageUpload({ current, onChange, label = 'Image' }) {
     );
 }
 
+export function MultiImageUpload({ currentUrls = [], onChange, onDelete, label = 'Gallery Images' }) {
+    const [newPreviews, setNewPreviews] = React.useState([]);
+
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        // Create object URLs for previewing newly selected files immediately
+        const previews = files.map(file => URL.createObjectURL(file));
+        setNewPreviews(prev => [...prev, ...previews]);
+        if (onChange) onChange(files);
+    };
+
+    return (
+        <div>
+            <label className="block text-xs font-body font-semibold tracking-wide text-slate-700 mb-1.5">{label}</label>
+            <div className="space-y-4">
+                {/* Existing Images */}
+                {currentUrls.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        {currentUrls.map((url, index) => (
+                            <div key={index} className="relative group aspect-square">
+                                <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover rounded-sm border border-slate-200" />
+                                <button
+                                    type="button"
+                                    onClick={() => onDelete(index)}
+                                    className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition shadow-sm hover:bg-red-600 focus:outline-none"
+                                    title="Delete Image"
+                                >
+                                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* New Image Previews */}
+                {newPreviews.length > 0 && (
+                    <div className="pt-4 border-t border-slate-100">
+                        <p className="text-xs font-semibold text-teal-600 mb-3">New Images (Unsaved)</p>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            {newPreviews.map((url, index) => (
+                                <div key={`new-${index}`} className="relative aspect-square opacity-70">
+                                    <img src={url} alt={`New Preview ${index}`} className="w-full h-full object-cover rounded-sm border border-teal-200" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div className="mt-4">
+                    <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileChange}
+                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 transition"
+                    />
+                    <p className="text-xs text-slate-400 mt-1">Select multiple images. JPG, PNG, WEBP. Max 2MB each.</p>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function FormCard({ title, children, className = '' }) {
     return (
         <div className={`bg-white border border-slate-100 rounded-sm shadow-sm p-6 lg:p-8 ${className}`}>

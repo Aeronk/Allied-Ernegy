@@ -2,25 +2,25 @@ import AdminLayout from '@/layouts/AdminLayout';
 import { useForm } from '@inertiajs/react';
 import { Field, Input, Textarea, Toggle, ImageUpload, FormCard, PageActions } from '@/components/Admin/FormFields';
 
-export default function BlogForm({ post = null }) {
-    const isEdit = !!post;
+export default function BlogForm({ item = null }) {
+    const isEdit = !!item;
     const { data, setData, post: submit, processing, errors } = useForm({
-        title: post?.title ?? '',
-        slug: post?.slug ?? '',
-        excerpt: post?.excerpt ?? '',
-        content: post?.content ?? '',
-        category: post?.category ?? '',
-        author: post?.author ?? '',
-        tags: post?.tags ?? '',
-        meta_description: post?.meta_description ?? '',
-        is_published: post?.is_published ?? false,
-        is_featured: post?.is_featured ?? false,
+        title: item?.title ?? '',
+        slug: item?.slug ?? '',
+        excerpt: item?.excerpt ?? '',
+        content: item?.content ?? '',
+        category: item?.category ?? '',
+        author: item?.author ?? '',
+        tags: item?.tags ?? '',
+        meta_description: item?.meta_description ?? '',
+        is_published: item?.is_published ?? false,
+        is_featured: item?.is_featured ?? false,
         image: null,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        submit(isEdit ? `/admin/blog/${post.id}?_method=PUT` : '/admin/blog', { forceFormData: true });
+        submit(isEdit ? `/admin/blog/${item.id}?_method=PUT` : '/admin/blog', { forceFormData: true });
     };
 
     const generateSlug = () => {
@@ -85,7 +85,7 @@ export default function BlogForm({ post = null }) {
                         </FormCard>
 
                         <FormCard title="Cover Image">
-                            <ImageUpload current={post?.image_url} onChange={e => setData('image', e.target.files[0])} />
+                            <ImageUpload current={item?.image_url} onChange={e => setData('image', e.target.files[0])} />
                         </FormCard>
                     </div>
                 </div>

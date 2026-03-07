@@ -2,7 +2,11 @@ import PublicLayout from '@/layouts/PublicLayout';
 import PageHeader from '@/components/PageHeader';
 import { Link } from '@inertiajs/react';
 
-export default function About({ settings = {} }) {
+export default function About({ settings = {}, contentSettings = {} }) {
+    const missionTitle = contentSettings.about_mission_title || 'Turning Tides Into Terawatts';
+    const missionText = contentSettings.about_mission_text || "Allied Energies Ltd was established with a singular vision: to make ocean wave energy a mainstream renewable power source...\n\nOur approach combines proven wave energy converter technologies with innovative project development...\n\nFrom the 8.3MW Ngqura Port project in South Africa to developments at Fraserburgh Harbour in Scotland...";
+    const missionParagraphs = missionText.split('\n').filter(p => p.trim() !== '');
+
     return (
         <PublicLayout title="About Us" settings={settings}>
             <PageHeader
@@ -16,17 +20,11 @@ export default function About({ settings = {} }) {
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div>
                         <p className="section-label mb-4">Who We Are</p>
-                        <h2 className="section-heading mb-6">Turning Tides Into Terawatts</h2>
+                        <h2 className="section-heading mb-6">{missionTitle}</h2>
                         <div className="space-y-4 text-slate-600 leading-relaxed">
-                            <p>
-                                Allied Energies Ltd was established with a singular vision: to make ocean wave energy a mainstream renewable power source. Founded in Scotland — home to some of the world's most energetic wave resources — we are building the technology and partnerships to make this vision a reality.
-                            </p>
-                            <p>
-                                Our approach combines proven wave energy converter technologies with innovative project development, bringing together world-class partners in energy, port infrastructure, and coastal development.
-                            </p>
-                            <p>
-                                From the 8.3MW Ngqura Port project in South Africa to developments at Fraserburgh Harbour in Scotland, we are delivering projects that demonstrate the commercial viability of wave power at scale.
-                            </p>
+                            {missionParagraphs.map((paragraph, index) => (
+                                <p key={index}>{paragraph}</p>
+                            ))}
                         </div>
                         <div className="mt-8 flex gap-4">
                             <Link href="/offer" className="btn-dark">Our Technologies</Link>
@@ -37,9 +35,9 @@ export default function About({ settings = {} }) {
                         <div className="aspect-square bg-ocean-950 rounded-sm overflow-hidden">
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <svg viewBox="0 0 200 200" className="w-3/4 opacity-20">
-                                    {[0,1,2,3,4].map(i => (
+                                    {[0, 1, 2, 3, 4].map(i => (
                                         <path key={i}
-                                            d={`M20,${80 + i*10} C60,${60 + i*5} 100,${100 + i*5} 140,${80 + i*10} C165,${70 + i*5} 180,${85 + i*5} 180,${80 + i*10}`}
+                                            d={`M20,${80 + i * 10} C60,${60 + i * 5} 100,${100 + i * 5} 140,${80 + i * 10} C165,${70 + i * 5} 180,${85 + i * 5} 180,${80 + i * 10}`}
                                             stroke="#2dd4bf" strokeWidth="2" fill="none"
                                         />
                                     ))}
@@ -123,7 +121,7 @@ export default function About({ settings = {} }) {
                         <div className="bg-navy-900 p-10 rounded-sm">
                             <p className="section-label mb-6">Our Mission Statement</p>
                             <blockquote className="font-display text-2xl text-white leading-relaxed italic mb-8">
-                                "To be the leading developer of commercial wave energy projects, delivering clean, affordable, and predictable power to coastal communities worldwide."
+                                "{contentSettings.about_quote || 'To be the leading developer of commercial wave energy projects, delivering clean, affordable, and predictable power to coastal communities worldwide.'}"
                             </blockquote>
                             <Link href="/contact" className="btn-primary">Work With Us →</Link>
                         </div>

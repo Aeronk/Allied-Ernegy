@@ -53,24 +53,24 @@ const Hero = ({ slides = [] }) => {
                 </motion.div>
             </AnimatePresence>
 
-            <div className="relative z-20 h-full max-w-7xl mx-auto px-6 flex flex-col justify-center items-start">
+            <div className="relative z-20 h-full max-w-7xl mx-auto px-6 flex flex-col justify-center items-start mt-16 mb-16 pt-32 pb-16">
                 <motion.div
                     key={`content-${currentSlide}`}
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="max-w-3xl"
                 >
-                    <span className="inline-block px-4 py-1 bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary rounded-full text-sm font-bold mb-6 uppercase tracking-widest">
+                    <span className="inline-block px-4 py-2 bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary rounded-full text-sm font-bold mb-6 uppercase tracking-widest">
                         {slide.subtitle || 'Renewable Energy IPP'}
                     </span>
-                    <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-6 leading-tight">
+                    <h1 className="text-3xl md:text-4xl font-display font-bold text-white mb-6 leading-tight">
                         {slide.title}
                     </h1>
                     <p className="text-xl text-white/80 mb-10 leading-relaxed">
                         {slide.description}
                     </p>
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-4 mb-32">
                         <Link href={slide.cta_primary_url || '/offer'} className="btn-primary flex items-center gap-2">
                             {slide.cta_primary_text || 'Learn More'} <ArrowRight className="w-5 h-5" />
                         </Link>
@@ -83,7 +83,7 @@ const Hero = ({ slides = [] }) => {
 
             {/* Indicators */}
             {slides.length > 1 && (
-                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20  flex gap-3">
                     {slides.map((_, idx) => (
                         <button
                             key={idx}
@@ -224,12 +224,19 @@ const Impact = ({ stats = [] }) => {
 const Testimonials = ({ testimonials = [] }) => {
     if (!testimonials || testimonials.length === 0) return null;
     return (
-        <section className="py-24 bg-slate-900 text-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6">
+        <section className="py-24 bg-gradient-to-br from-orange-500 to-orange-600 text-white overflow-hidden relative">
+            {/* Subtle wave pattern */}
+            <div className="absolute inset-0 opacity-10"
+                style={{
+                    backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)',
+                    backgroundSize: '60px 60px',
+                }}
+            />
+            <div className="max-w-7xl mx-auto px-8 relative">
                 <div className="text-center mb-20">
-                    <Quote className="w-16 h-16 text-primary/20 mx-auto mb-6" />
+                    <Quote className="w-16 h-16 text-white/20 mx-auto mb-6" />
                     <h2 className="text-4xl font-bold mb-6">What Industry Leaders Say</h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">Hear from the experts and partners who are working with us to turn the tide on climate change.</p>
+                    <p className="text-orange-100 max-w-2xl mx-auto">Hear from the experts and partners who are working with us to turn the tide on climate change.</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8">
@@ -240,14 +247,14 @@ const Testimonials = ({ testimonials = [] }) => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: idx * 0.1 }}
-                            className="bg-white/5 border border-white/10 p-10 rounded-3xl relative"
+                            className="bg-white/15 backdrop-blur-sm border border-white/20 p-10 rounded-3xl relative hover:bg-white/20 transition-colors"
                         >
-                            <p className="text-lg text-slate-300 italic mb-8 leading-relaxed">"{t.quote}"</p>
+                            <p className="text-lg text-white/90 italic mb-8 leading-relaxed">"{t.quote}"</p>
                             <div className="flex items-center gap-4">
-                                <img src={t.image} alt={t.author} className="w-12 h-12 rounded-full object-cover border-2 border-primary" referrerPolicy="no-referrer" />
+                                <img src={t.image} alt={t.author} className="w-12 h-12 rounded-full object-cover border-2 border-white/50" referrerPolicy="no-referrer" />
                                 <div>
                                     <div className="font-bold text-white">{t.author}</div>
-                                    <div className="text-sm text-slate-500">{t.role}</div>
+                                    <div className="text-sm text-orange-200">{t.role}</div>
                                 </div>
                             </div>
                         </motion.div>
@@ -328,7 +335,7 @@ const Home = ({
 
                 {/* Quick About Section */}
                 <section className="py-24 bg-white">
-                    <div className="max-w-7xl mx-auto px-6">
+                    <div className="max-w-7xl mx-auto px-8">
                         <div className="grid lg:grid-cols-2 gap-16 items-center">
                             <motion.div
                                 initial={{ opacity: 0, x: -50 }}
@@ -375,10 +382,12 @@ const Home = ({
                 <Impact stats={homeImpact} />
 
                 {/* Technology Preview */}
-                <section className="py-24 bg-slate-50">
-                    <div className="max-w-7xl mx-auto px-6">
+                <section className="py-24 bg-slate-50 relative">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-500"></div>
+                    <div className="max-w-7xl mx-auto px-8">
                         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                             <div className="max-w-2xl">
+                                <div className="w-12 h-1 bg-orange-400 rounded-full mb-4"></div>
                                 <h2 className="text-4xl font-bold text-slate-900 mb-6">Our Core Technologies</h2>
                                 <p className="text-lg text-slate-600">We leverage a diverse range of marine and renewable technologies to provide consistent, zero-emission power.</p>
                             </div>
@@ -411,7 +420,7 @@ const Home = ({
                                         </div>
                                         <h3 className="text-xl font-bold text-slate-900 mb-4">{service.name}</h3>
                                         <p className="text-slate-600 text-sm leading-relaxed mb-6">{service.description}</p>
-                                        <Link href={`/offer`} className="text-primary font-bold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                                        <Link href={`/offer/${service.slug}`} className="text-primary font-bold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
                                             Learn more <ArrowRight className="w-4 h-4" />
                                         </Link>
                                     </div>
@@ -425,9 +434,11 @@ const Home = ({
 
                 {/* Partners Preview */}
                 {partners && partners.length > 0 && (
-                    <section className="py-24 bg-white border-y border-slate-100">
-                        <div className="max-w-7xl mx-auto px-6">
+                    <section className="py-24 bg-white border-y border-slate-100 relative">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-500"></div>
+                        <div className="max-w-7xl mx-auto px-8">
                             <div className="text-center mb-16">
+                                <div className="w-12 h-1 bg-orange-400 rounded-full mb-4 mx-auto"></div>
                                 <h2 className="text-3xl font-bold text-slate-900 mb-4">Strategic Partners</h2>
                                 <p className="text-slate-600">Collaborating with world leaders to drive the energy transition.</p>
                             </div>
@@ -450,10 +461,11 @@ const Home = ({
                 )}
 
                 {/* Featured Projects */}
-                <section className="py-24 bg-slate-900 text-white">
-                    <div className="max-w-7xl mx-auto px-6">
+                <section className="py-24 bg-slate-900 text-white relative">
+                    <div className="max-w-7xl mx-auto px-8">
                         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                             <div className="max-w-2xl">
+                                <div className="w-12 h-1 bg-orange-400 rounded-full mb-4"></div>
                                 <h2 className="text-4xl font-bold mb-6">Featured Projects</h2>
                                 <p className="text-slate-400 text-lg">Real-world applications of our marine energy solutions across the globe.</p>
                             </div>
@@ -479,12 +491,12 @@ const Home = ({
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
                                     <div className="absolute bottom-0 left-0 w-full p-8">
-                                        <div className="flex items-center gap-2 text-secondary font-bold text-sm mb-2">
+                                        <div className="flex items-center gap-2 text-orange-400 font-bold text-sm mb-2">
                                             <MapPin className="w-4 h-4" />
                                             {project.location}
                                         </div>
                                         <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
-                                        <Link href="/projects" className="inline-flex items-center gap-2 text-white font-bold hover:text-secondary transition-colors">
+                                        <Link href={`/projects/${project.id}`} className="inline-flex items-center gap-2 text-white font-bold hover:text-orange-400 transition-colors">
                                             Explore Project <ArrowRight className="w-5 h-5" />
                                         </Link>
                                     </div>

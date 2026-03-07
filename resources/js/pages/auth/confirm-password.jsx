@@ -11,7 +11,7 @@ export default function ConfirmPassword() {
         password: '',
     });
 
-    const submit = (e: React.FormEvent) => {
+    const submit = (e) => {
         e.preventDefault();
         post('/user/confirm-password', {
             onSuccess: () => reset('password'),

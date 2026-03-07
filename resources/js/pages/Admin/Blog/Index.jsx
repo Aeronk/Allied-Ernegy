@@ -1,8 +1,8 @@
 import AdminLayout from '@/layouts/AdminLayout';
 import ResourceTable from '@/components/Admin/ResourceTable';
 
-export default function BlogIndex({ posts = [] }) {
-    const rows = posts.map(p => ({
+export default function BlogIndex({ items = [] }) {
+    const rows = items.map(p => ({
         id: p.id,
         cells: [
             <span className="font-medium text-navy-900 line-clamp-1 max-w-xs">{p.title}</span>,

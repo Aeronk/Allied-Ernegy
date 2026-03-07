@@ -11,11 +11,16 @@ class Project extends Model
 
     protected $fillable = [
         'title', 'location', 'description', 'full_description',
-        'image_url', 'image_path', 'status', 'capacity',
+        'image_url', 'image_path', 'gallery', 'status', 'capacity',
         'order', 'is_active', 'is_featured',
     ];
 
-    protected $casts = ['is_active' => 'boolean', 'is_featured' => 'boolean', 'order' => 'integer'];
+    protected $casts = [
+        'is_active' => 'boolean', 
+        'is_featured' => 'boolean', 
+        'order' => 'integer',
+        'gallery' => 'array'
+    ];
 
     public function scopeActive($query) { return $query->where('is_active', true)->orderBy('order'); }
 

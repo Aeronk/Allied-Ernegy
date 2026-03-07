@@ -2,20 +2,20 @@ import AdminLayout from '@/layouts/AdminLayout';
 import { useForm } from '@inertiajs/react';
 import { Field, Input, Textarea, Toggle, ImageUpload, FormCard, PageActions } from '@/components/Admin/FormFields';
 
-export default function ServiceForm({ service = null }) {
-    const isEdit = !!service;
+export default function ServiceForm({ item = null }) {
+    const isEdit = !!item;
     const { data, setData, post, processing, errors } = useForm({
-        name: service?.name ?? '',
-        description: service?.description ?? '',
-        order: service?.order ?? 0,
-        is_active: service?.is_active ?? true,
+        name: item?.name ?? '',
+        description: item?.description ?? '',
+        order: item?.order ?? 0,
+        is_active: item?.is_active ?? true,
         image: null,
         icon: null,
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post(isEdit ? `/admin/services/${service.id}?_method=PUT` : '/admin/services', { forceFormData: true });
+        post(isEdit ? `/admin/services/${item.id}?_method=PUT` : '/admin/services', { forceFormData: true });
     };
 
     return (
@@ -45,10 +45,10 @@ export default function ServiceForm({ service = null }) {
                             </div>
                         </FormCard>
                         <FormCard title="Service Image">
-                            <ImageUpload current={service?.image_url} onChange={e => setData('image', e.target.files[0])} />
+                            <ImageUpload current={item?.image_url} onChange={e => setData('image', e.target.files[0])} />
                         </FormCard>
                         <FormCard title="Icon">
-                            <ImageUpload current={service?.icon_url} onChange={e => setData('icon', e.target.files[0])} label="Icon Image (SVG or PNG)" />
+                            <ImageUpload current={item?.icon_url} onChange={e => setData('icon', e.target.files[0])} label="Icon Image (SVG or PNG)" />
                         </FormCard>
                     </div>
                 </div>

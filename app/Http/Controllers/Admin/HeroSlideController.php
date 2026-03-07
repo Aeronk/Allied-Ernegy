@@ -13,7 +13,7 @@ class HeroSlideController extends Controller
     public function index(): Response
     {
         return Inertia::render('Admin/HeroSlides/Index', [
-            'slides' => HeroSlide::orderBy('order')->get()->map(fn($s) => [
+            'items' => HeroSlide::orderBy('order')->get()->map(fn($s) => [
                 'id' => $s->id, 'title' => $s->title, 'subtitle' => $s->subtitle,
                 'image' => $s->image, 'order' => $s->order, 'is_active' => $s->is_active,
                 'cta_primary_text' => $s->cta_primary_text, 'cta_primary_url' => $s->cta_primary_url,
@@ -23,7 +23,7 @@ class HeroSlideController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('Admin/HeroSlides/Form', ['slide' => null]);
+        return Inertia::render('Admin/HeroSlides/Form', ['item' => null]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -52,7 +52,7 @@ class HeroSlideController extends Controller
     public function edit(HeroSlide $heroSlide): Response
     {
         return Inertia::render('Admin/HeroSlides/Form', [
-            'slide' => array_merge($heroSlide->toArray(), ['image' => $heroSlide->image]),
+            'item' => array_merge($heroSlide->toArray(), ['image' => $heroSlide->image]),
         ]);
     }
 

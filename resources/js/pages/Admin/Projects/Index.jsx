@@ -1,9 +1,10 @@
+import React, { useState } from 'react';
 import AdminLayout from '@/layouts/AdminLayout';
 import ResourceTable from '@/components/Admin/ResourceTable';
 import { useForm } from '@inertiajs/react';
-import { Field, Input, Textarea, Select, Toggle, ImageUpload, FormCard, PageActions } from '@/components/Admin/FormFields';
+import { Field, Input, Textarea, Select, Toggle, ImageUpload, MultiImageUpload, FormCard, PageActions } from '@/components/Admin/FormFields';
 
-export function ProjectsIndex({ projects = [] }) {
+export function ProjectsIndex({ items = [] }) {
     const statusColors = {
         planning: 'bg-amber-100 text-amber-700',
         development: 'bg-blue-100 text-blue-700',
@@ -11,7 +12,7 @@ export function ProjectsIndex({ projects = [] }) {
         operational: 'bg-green-100 text-green-700',
         completed: 'bg-slate-100 text-slate-600',
     };
-    const rows = projects.map(p => ({
+    const rows = items.map(p => ({
         id: p.id,
         cells: [
             p.image_url ? <img src={p.image_url} alt={p.title} className="w-16 h-10 object-cover rounded-sm" /> : '—',
@@ -30,24 +31,50 @@ export function ProjectsIndex({ projects = [] }) {
     );
 }
 
-export function ProjectForm({ project = null }) {
-    const isEdit = !!project;
+export function ProjectForm({ item = null }) {
+    const isEdit = !!item;
+
+    // Manage display URLs for gallery
+    const [currentGalleryUrls, setCurrentGalleryUrls] = useState(item?.gallery_urls || []);
+
     const { data, setData, post, processing, errors } = useForm({
-        title: project?.title ?? '',
-        description: project?.description ?? '',
-        location: project?.location ?? '',
-        capacity: project?.capacity ?? '',
-        status: project?.status ?? 'planning',
-        year: project?.year ?? '',
-        order: project?.order ?? 0,
-        is_active: project?.is_active ?? true,
-        is_featured: project?.is_featured ?? false,
+        title: item?.title ?? '',
+        slug: item?.slug ?? '',
+        description: item?.description ?? '',
+        location: item?.location ?? '',
+        client: item?.client ?? '',
+        capacity: item?.capacity ?? '',
+        status: item?.status ?? 'planning',
+        year: item?.year ?? '',
+        order: item?.order ?? 0,
+        is_active: item?.is_active ?? true,
+        is_featured: item?.is_featured ?? false,
         image: null,
+        gallery_images: [],
+        deleted_gallery_images: [],
     });
+
+    const handleDeleteGalleryImage = (index) => {
+        const deletedImage = currentGalleryUrls[index];
+        // If it's a storage path, we need to track it for deletion
+        if (deletedImage && !deletedImage.startsWith('blob:') && !deletedImage.startsWith('http')) {
+            const pathMatch = deletedImage.match(/\/storage\/(.+)$/);
+            if (pathMatch) {
+                setData('deleted_gallery_images', [...data.deleted_gallery_images, pathMatch[1]]);
+            }
+        }
+        const updatedUrls = [...currentGalleryUrls];
+        updatedUrls.splice(index, 1);
+        setCurrentGalleryUrls(updatedUrls);
+    };
+
+    const handleAddGalleryImages = (newFiles) => {
+        setData('gallery_images', [...data.gallery_images, ...newFiles]);
+    };
 
     const submit = (e) => {
         e.preventDefault();
-        post(isEdit ? `/admin/projects/${project.id}?_method=PUT` : '/admin/projects', { forceFormData: true });
+        post(isEdit ? `/admin/projects/${item.id}?_method=PUT` : '/admin/projects', { forceFormData: true });
     };
 
     return (
@@ -97,8 +124,15 @@ export function ProjectForm({ project = null }) {
                                 </Field>
                             </div>
                         </FormCard>
-                        <FormCard title="Project Image">
-                            <ImageUpload current={project?.image_url} onChange={e => setData('image', e.target.files[0])} />
+                        <FormCard title="Cover Image">
+                            <ImageUpload current={item?.image_url} onChange={e => setData('image', e.target.files[0])} />
+                        </FormCard>
+                        <FormCard title="Gallery">
+                            <MultiImageUpload
+                                currentUrls={currentGalleryUrls}
+                                onChange={handleAddGalleryImages}
+                                onDelete={handleDeleteGalleryImage}
+                            />
                         </FormCard>
                     </div>
                 </div>

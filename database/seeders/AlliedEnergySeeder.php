@@ -26,6 +26,7 @@ class AlliedEnergySeeder extends Seeder
         $this->seedTeamMembers();
         $this->seedBlogPosts();
         $this->seedContentSettings();
+        $this->seedSiteSettings();
     }
 
     private function seedHeroSlides(): void
@@ -384,6 +385,37 @@ class AlliedEnergySeeder extends Seeder
             ContentSetting::updateOrCreate(
                 ['key' => $key],
                 ['value' => json_encode($value), 'type' => 'json']
+            );
+        }
+    }
+
+    private function seedSiteSettings(): void
+    {
+        $settings = [
+            // General
+            ['key' => 'site_name', 'value' => 'Allied Energies Ltd', 'type' => 'text', 'group' => 'general', 'label' => 'Site Name'],
+            ['key' => 'site_logo', 'value' => null, 'type' => 'image', 'group' => 'general', 'label' => 'Site Logo'],
+            ['key' => 'site_description', 'value' => 'Harnessing the power of ocean waves for a cleaner tomorrow.', 'type' => 'textarea', 'group' => 'general', 'label' => 'Site Description'],
+            
+            // Contact
+            ['key' => 'contact_email', 'value' => 'info@alliedenergies.com', 'type' => 'text', 'group' => 'contact', 'label' => 'Contact Email'],
+            ['key' => 'contact_phone', 'value' => '+44 (0) 1224 000000', 'type' => 'text', 'group' => 'contact', 'label' => 'Contact Phone'],
+            ['key' => 'contact_address', 'value' => 'Aberdeen, Scotland, UK', 'type' => 'textarea', 'group' => 'contact', 'label' => 'Office Address'],
+            
+            // Social
+            ['key' => 'social_linkedin', 'value' => 'https://linkedin.com/company/allied-energies', 'type' => 'text', 'group' => 'social', 'label' => 'LinkedIn URL'],
+            ['key' => 'social_twitter', 'value' => 'https://twitter.com/alliedenergies', 'type' => 'text', 'group' => 'social', 'label' => 'Twitter URL'],
+            
+            // SEO
+            ['key' => 'seo_title', 'value' => 'Allied Energies | Renewable Wave Power IPP', 'type' => 'text', 'group' => 'seo', 'label' => 'Meta Title'],
+            ['key' => 'seo_description', 'value' => 'Allied Energies is a leading Independent Power Producer (IPP) focused on marine and wave energy solutions.', 'type' => 'textarea', 'group' => 'seo', 'label' => 'Meta Description'],
+            ['key' => 'seo_keywords', 'value' => 'wave energy, marine power, renewable energy, hydro power, green hydrogen', 'type' => 'text', 'group' => 'seo', 'label' => 'Meta Keywords'],
+        ];
+
+        foreach ($settings as $setting) {
+            \App\Models\SiteSetting::updateOrCreate(
+                ['key' => $setting['key']],
+                $setting
             );
         }
     }

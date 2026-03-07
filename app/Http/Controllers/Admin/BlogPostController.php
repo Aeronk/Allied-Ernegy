@@ -14,7 +14,7 @@ class BlogPostController extends Controller
     public function index(): Response
     {
         return Inertia::render('Admin/Blog/Index', [
-            'posts' => BlogPost::latest()->paginate(15)->through(fn($b) => [
+            'items' => BlogPost::latest()->get()->map(fn($b) => [
                 'id' => $b->id, 'title' => $b->title, 'slug' => $b->slug,
                 'category' => $b->category, 'author' => $b->author,
                 'is_published' => $b->is_published, 'is_featured' => $b->is_featured,
@@ -26,7 +26,7 @@ class BlogPostController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('Admin/Blog/Form', ['post' => null]);
+        return Inertia::render('Admin/Blog/Form', ['item' => null]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -57,7 +57,7 @@ class BlogPostController extends Controller
     public function edit(BlogPost $blog): Response
     {
         return Inertia::render('Admin/Blog/Form', [
-            'post' => array_merge($blog->toArray(), ['image' => $blog->image,
+            'item' => array_merge($blog->toArray(), ['image' => $blog->image,
                 'published_at' => $blog->published_at?->format('Y-m-d')]),
         ]);
     }

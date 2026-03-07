@@ -3,8 +3,8 @@ import ResourceTable from '@/components/Admin/ResourceTable';
 import { useForm } from '@inertiajs/react';
 import { Field, Input, Textarea, Toggle, ImageUpload, FormCard, PageActions } from '@/components/Admin/FormFields';
 
-export function TeamIndex({ teamMembers = [] }) {
-    const rows = teamMembers.map(m => ({
+export function TeamIndex({ items = [] }) {
+    const rows = items.map(m => ({
         id: m.id,
         cells: [
             m.image_url
@@ -25,21 +25,21 @@ export function TeamIndex({ teamMembers = [] }) {
     );
 }
 
-export function TeamForm({ member = null }) {
-    const isEdit = !!member;
+export function TeamForm({ item = null }) {
+    const isEdit = !!item;
     const { data, setData, post, processing, errors } = useForm({
-        name: member?.name ?? '',
-        role: member?.role ?? '',
-        bio: member?.bio ?? '',
-        linkedin_url: member?.linkedin_url ?? '',
-        order: member?.order ?? 0,
-        is_active: member?.is_active ?? true,
+        name: item?.name ?? '',
+        role: item?.role ?? '',
+        bio: item?.bio ?? '',
+        linkedin_url: item?.linkedin_url ?? '',
+        order: item?.order ?? 0,
+        is_active: item?.is_active ?? true,
         image: null,
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post(isEdit ? `/admin/team-members/${member.id}?_method=PUT` : '/admin/team-members', { forceFormData: true });
+        post(isEdit ? `/admin/team-members/${item.id}?_method=PUT` : '/admin/team-members', { forceFormData: true });
     };
 
     return (
@@ -77,7 +77,7 @@ export function TeamForm({ member = null }) {
                             </div>
                         </FormCard>
                         <FormCard title="Profile Photo">
-                            <ImageUpload current={member?.image_url} onChange={e => setData('image', e.target.files[0])} />
+                            <ImageUpload current={item?.image_url} onChange={e => setData('image', e.target.files[0])} />
                         </FormCard>
                     </div>
                 </div>

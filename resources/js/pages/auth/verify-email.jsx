@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 
-export default function VerifyEmail({ status }: { status?: string }) {
+export default function VerifyEmail({ status }) {
     const { post, processing } = useForm();
 
-    const submit = (e: React.FormEvent) => {
+    const submit = (e) => {
         e.preventDefault();
         post('/email/verification-notification');
     };

@@ -2,8 +2,8 @@
 import AdminLayout from '@/layouts/AdminLayout';
 import ResourceTable from '@/components/Admin/ResourceTable';
 
-export function ServicesIndex({ services = [] }) {
-    const rows = services.map(s => ({
+export function ServicesIndex({ items = [] }) {
+    const rows = items.map(s => ({
         id: s.id,
         cells: [
             s.icon_url ? <img src={s.icon_url} alt={s.name} className="w-8 h-8 object-contain" /> : '—',

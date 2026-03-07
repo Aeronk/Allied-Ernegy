@@ -2,18 +2,18 @@ import AdminLayout from '@/layouts/AdminLayout';
 import { useForm, Link } from '@inertiajs/react';
 import { Field, Input, Textarea, Toggle, ImageUpload, FormCard, PageActions } from '@/components/Admin/FormFields';
 
-export default function HeroSlideForm({ slide = null }) {
-    const isEdit = !!slide;
+export default function HeroSlideForm({ item = null }) {
+    const isEdit = !!item;
     const { data, setData, post, put, processing, errors } = useForm({
-        title: slide?.title ?? '',
-        subtitle: slide?.subtitle ?? '',
-        description: slide?.description ?? '',
-        cta_primary_text: slide?.cta_primary_text ?? '',
-        cta_primary_url: slide?.cta_primary_url ?? '',
-        cta_secondary_text: slide?.cta_secondary_text ?? '',
-        cta_secondary_url: slide?.cta_secondary_url ?? '',
-        order: slide?.order ?? 0,
-        is_active: slide?.is_active ?? true,
+        title: item?.title ?? '',
+        subtitle: item?.subtitle ?? '',
+        description: item?.description ?? '',
+        cta_primary_text: item?.cta_primary_text ?? '',
+        cta_primary_url: item?.cta_primary_url ?? '',
+        cta_secondary_text: item?.cta_secondary_text ?? '',
+        cta_secondary_url: item?.cta_secondary_url ?? '',
+        order: item?.order ?? 0,
+        is_active: item?.is_active ?? true,
         image: null,
     });
 
@@ -21,7 +21,7 @@ export default function HeroSlideForm({ slide = null }) {
         e.preventDefault();
         const options = { forceFormData: true };
         if (isEdit) {
-            post(`/admin/hero-slides/${slide.id}?_method=PUT`, options);
+            post(`/admin/hero-slides/${item.id}?_method=PUT`, options);
         } else {
             post('/admin/hero-slides', options);
         }
@@ -83,7 +83,7 @@ export default function HeroSlideForm({ slide = null }) {
 
                         <FormCard title="Background Image">
                             <ImageUpload
-                                current={slide?.image_url}
+                                current={item?.image_url}
                                 onChange={e => setData('image', e.target.files[0])}
                             />
                         </FormCard>

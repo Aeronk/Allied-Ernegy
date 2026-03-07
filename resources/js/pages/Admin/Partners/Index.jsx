@@ -1,8 +1,8 @@
 import AdminLayout from '@/layouts/AdminLayout';
 import ResourceTable from '@/components/Admin/ResourceTable';
 
-export default function PartnersIndex({ partners = [] }) {
-    const rows = partners.map(p => ({
+export default function PartnersIndex({ items = [] }) {
+    const rows = items.map(p => ({
         id: p.id,
         cells: [
             p.logo_url ? <img src={p.logo_url} alt={p.name} className="h-8 object-contain max-w-[80px]" /> : '—',

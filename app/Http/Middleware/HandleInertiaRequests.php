@@ -41,6 +41,13 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'settings' => collect(\App\Models\SiteSetting::pluck('value', 'key'))->map(function($value, $key) {
+                if (in_array($key, ['site_logo', 'favicon', 'site_footer_logo']) && $value && !str_starts_with($value, 'http')) {
+                    return \Illuminate\Support\Facades\Storage::disk('public')->url($value);
+                }
+                return $value;
+            })->toArray(),
+            'services' => \App\Models\Service::active()->orderBy('order')->get(['id', 'title', 'slug'])->toArray(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

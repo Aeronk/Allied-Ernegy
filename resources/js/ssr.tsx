@@ -10,11 +10,20 @@ createServer((page) =>
         page,
         render: ReactDOMServer.renderToString,
         title: (title) => (title ? `${title} - ${appName}` : appName),
-        resolve: (name) =>
-            resolvePageComponent(
-                `./pages/${name}.tsx`,
-                import.meta.glob('./pages/**/*.tsx'),
-            ),
+        resolve: (name) => {
+            const pages = import.meta.glob([
+                './pages/**/*.jsx',
+                './pages/**/*.tsx',
+            ]);
+
+            const pathJsx = `./pages/${name}.jsx`;
+            const pathTsx = `./pages/${name}.tsx`;
+
+            return resolvePageComponent(
+                pages[pathJsx] ? pathJsx : pathTsx,
+                pages
+            );
+        },
         setup: ({ App, props }) => {
             return <App {...props} />;
         },

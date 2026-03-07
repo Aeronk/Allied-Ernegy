@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 export default function Settings({ settings = {}, flash = {} }) {
     const { data, setData, post, processing } = useForm({
         site_name: settings.site_name ?? 'Allied Energies Ltd',
+        site_logo: null,
         site_tagline: settings.site_tagline ?? '',
         contact_email: settings.contact_email ?? '',
         contact_phone: settings.contact_phone ?? '',
@@ -19,6 +20,7 @@ export default function Settings({ settings = {}, flash = {} }) {
     const submit = (e) => {
         e.preventDefault();
         post('/admin/settings', {
+            forceFormData: true,
             onSuccess: () => toast.success('Settings saved successfully!'),
             onError: () => toast.error('Failed to save settings.'),
         });
@@ -34,13 +36,30 @@ export default function Settings({ settings = {}, flash = {} }) {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <FormCard title="General">
+                    <FormCard title="General & Branding">
                         <div className="space-y-5">
                             <Field label="Site Name">
                                 <Input value={data.site_name} onChange={e => setData('site_name', e.target.value)} />
                             </Field>
                             <Field label="Tagline">
                                 <Input value={data.site_tagline} onChange={e => setData('site_tagline', e.target.value)} placeholder="Harnessing the Power of Waves" />
+                            </Field>
+                            <Field label="Site Logo">
+                                {settings.site_logo && (
+                                    <div className="mb-4">
+                                        <p className="text-sm text-slate-500 mb-2">Current Logo:</p>
+                                        <div className="bg-slate-100 p-4 rounded-lg inline-block">
+                                            <img src={settings.site_logo.startsWith('http') ? settings.site_logo : `/storage/${settings.site_logo}`} alt="Site Logo" className="h-12 object-contain" />
+                                        </div>
+                                    </div>
+                                )}
+                                <input
+                                    type="file"
+                                    onChange={e => setData('site_logo', e.target.files[0])}
+                                    accept="image/*"
+                                    className="block w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-colors"
+                                />
+                                <p className="text-xs text-slate-500 mt-2">Upload a transparent PNG or SVG. Recommended height 40px - 80px.</p>
                             </Field>
                         </div>
                     </FormCard>

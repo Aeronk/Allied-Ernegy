@@ -24,10 +24,20 @@ class ProjectController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->except('image');
+        $data = $request->except(['image', 'gallery_images']);
+        
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('projects', 'public');
         }
+
+        $gallery = [];
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $file) {
+                $gallery[] = $file->store('projects/gallery', 'public');
+            }
+        }
+        $data['gallery'] = $gallery;
+
         Project::create($data);
         return redirect()->route('admin.projects.index')->with('success', 'Project created.');
     }
@@ -35,17 +45,50 @@ class ProjectController extends Controller
     public function edit(Project $model): Response
     {
         return Inertia::render('Admin/Projects/Form', [
-            'item' => array_merge($model->toArray(), ['image' => $model->image]),
+            'item' => array_merge($model->toArray(), [
+                'image' => $model->image,
+                'gallery_urls' => collect($model->gallery ?? [])->map(fn($path) => asset('storage/' . $path))->toArray(),
+            ]),
         ]);
     }
 
     public function update(Request $request, Project $model): RedirectResponse
     {
-        $data = $request->except('image');
+        $data = $request->except(['image', 'gallery_images', 'deleted_gallery_images']);
+        
         if ($request->hasFile('image')) {
             if ($model->image_path) Storage::disk('public')->delete($model->image_path);
             $data['image_path'] = $request->file('image')->store('projects', 'public');
         }
+
+        $currentGallery = $model->gallery ?? [];
+        
+        // Handle deletions (by path)
+        if ($request->has('deleted_gallery_images')) {
+            $deleted = $request->deleted_gallery_images;
+            if (is_string($deleted)) {
+                $deleted = json_decode($deleted, true) ?? [];
+            }
+            if (is_array($deleted)) {
+                foreach ($deleted as $path) {
+                    if (($key = array_search($path, $currentGallery)) !== false) {
+                        Storage::disk('public')->delete($path);
+                        unset($currentGallery[$key]);
+                    }
+                }
+                $currentGallery = array_values($currentGallery); // Re-index
+            }
+        }
+
+        // Handle additions
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $file) {
+                $currentGallery[] = $file->store('projects/gallery', 'public');
+            }
+        }
+        
+        $data['gallery'] = $currentGallery;
+
         $model->update($data);
         return redirect()->route('admin.projects.index')->with('success', 'Project updated.');
     }
@@ -53,6 +96,13 @@ class ProjectController extends Controller
     public function destroy(Project $model): RedirectResponse
     {
         if ($model->image_path) Storage::disk('public')->delete($model->image_path);
+        
+        if (is_array($model->gallery)) {
+            foreach ($model->gallery as $path) {
+                Storage::disk('public')->delete($path);
+            }
+        }
+
         $model->delete();
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted.');
     }

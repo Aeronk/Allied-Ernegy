@@ -2,22 +2,22 @@ import AdminLayout from '@/layouts/AdminLayout';
 import { useForm } from '@inertiajs/react';
 import { Field, Input, Textarea, Toggle, ImageUpload, FormCard, PageActions } from '@/components/Admin/FormFields';
 
-export default function PartnerForm({ partner = null }) {
-    const isEdit = !!partner;
+export default function PartnerForm({ item = null }) {
+    const isEdit = !!item;
     const { data, setData, post, processing, errors } = useForm({
-        name: partner?.name ?? '',
-        description: partner?.description ?? '',
-        country: partner?.country ?? '',
-        website_url: partner?.website_url ?? '',
-        order: partner?.order ?? 0,
-        is_active: partner?.is_active ?? true,
-        is_featured: partner?.is_featured ?? false,
+        name: item?.name ?? '',
+        description: item?.description ?? '',
+        country: item?.country ?? '',
+        website_url: item?.website_url ?? '',
+        order: item?.order ?? 0,
+        is_active: item?.is_active ?? true,
+        is_featured: item?.is_featured ?? false,
         logo: null,
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post(isEdit ? `/admin/partners/${partner.id}?_method=PUT` : '/admin/partners', { forceFormData: true });
+        post(isEdit ? `/admin/partners/${item.id}?_method=PUT` : '/admin/partners', { forceFormData: true });
     };
 
     return (
@@ -56,7 +56,7 @@ export default function PartnerForm({ partner = null }) {
                             </div>
                         </FormCard>
                         <FormCard title="Logo">
-                            <ImageUpload current={partner?.logo_url} onChange={e => setData('logo', e.target.files[0])} label="Partner Logo" />
+                            <ImageUpload current={item?.logo_url} onChange={e => setData('logo', e.target.files[0])} label="Partner Logo" />
                         </FormCard>
                     </div>
                 </div>
