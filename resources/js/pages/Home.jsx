@@ -53,7 +53,7 @@ const Hero = ({ slides = [] }) => {
                 </motion.div>
             </AnimatePresence>
 
-            <div className="relative z-20 h-full max-w-7xl mx-auto px-6 flex flex-col justify-center items-start mt-16 mb-16 pt-32 pb-16">
+            <div className="relative z-20 h-full max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20 flex flex-col justify-center items-start mt-16 mb-16 pt-32 pb-16">
                 <motion.div
                     key={`content-${currentSlide}`}
                     initial={{ opacity: 0, y: 30 }}
@@ -101,7 +101,7 @@ const Stats = ({ stats = [] }) => {
     if (!stats || stats.length === 0) return null;
     return (
         <section className="py-12 bg-slate-900 border-y border-white/5">
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                     {stats.map((stat, idx) => (
                         <motion.div
@@ -129,7 +129,7 @@ const Process = ({ steps = [] }) => {
     if (!steps || steps.length === 0) return null;
     return (
         <section className="py-24 bg-slate-50">
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
                 <div className="text-center max-w-3xl mx-auto mb-20">
                     <h2 className="text-4xl font-bold text-slate-900 mb-6">How It Works</h2>
                     <p className="text-lg text-slate-600">Our patented technology transforms the natural power of ocean waves into reliable, grid-ready electricity through a simple, efficient process.</p>
@@ -167,7 +167,7 @@ const Impact = ({ stats = [], title, desc, bullets = [] }) => {
     if ((!stats || stats.length === 0) && (!bullets || bullets.length === 0)) return null;
     return (
         <section className="py-24 bg-white overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
@@ -232,7 +232,7 @@ const Testimonials = ({ testimonials = [] }) => {
                     backgroundSize: '60px 60px',
                 }}
             />
-            <div className="max-w-7xl mx-auto px-8 relative">
+            <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20 relative">
                 <div className="text-center mb-20">
                     <Quote className="w-16 h-16 text-white/20 mx-auto mb-6" />
                     <h2 className="text-4xl font-bold mb-6">What Industry Leaders Say</h2>
@@ -342,7 +342,7 @@ const Home = ({
 
                 {/* Quick About Section */}
                 <section className="py-24 bg-white">
-                    <div className="max-w-7xl mx-auto px-8">
+                    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
                         <div className="grid lg:grid-cols-2 gap-16 items-center">
                             <motion.div
                                 initial={{ opacity: 0, x: -50 }}
@@ -449,7 +449,7 @@ const Home = ({
                     <section className="py-24 bg-slate-50 border-y border-slate-100 relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-slate-100 to-transparent pointer-events-none z-10"></div>
                         <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-slate-100 to-transparent pointer-events-none z-10"></div>
-                        <div className="max-w-7xl mx-auto px-8 relative z-20">
+                        <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20 relative z-20">
                             <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                                 <div className="max-w-2xl">
                                     <div className="w-12 h-1 bg-orange-500 rounded-full mb-4"></div>
@@ -490,7 +490,7 @@ const Home = ({
 
                 {/* Featured Projects */}
                 <section className="py-24 bg-slate-900 text-white relative">
-                    <div className="max-w-7xl mx-auto px-8">
+                    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
                         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                             <div className="max-w-2xl">
                                 <div className="w-12 h-1 bg-orange-400 rounded-full mb-4"></div>
@@ -537,7 +537,7 @@ const Home = ({
                 {/* Latest News */}
                 {blogPosts && blogPosts.length > 0 && (
                     <section className="py-24 bg-white">
-                        <div className="max-w-7xl mx-auto px-6">
+                        <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
                             <div className="text-center mb-16">
                                 <h2 className="text-4xl font-bold text-slate-900 mb-4">Latest News & Insights</h2>
                                 <p className="text-slate-600">Stay updated with our latest milestones and industry developments.</p>
@@ -589,7 +589,7 @@ const Home = ({
 
                 {/* Global Presence */}
                 <section className="py-24 bg-slate-50 overflow-hidden">
-                    <div className="max-w-7xl mx-auto px-6">
+                    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
                         <div className="grid lg:grid-cols-2 gap-16 items-center">
                             <motion.div
                                 initial={{ opacity: 0, x: -50 }}
@@ -636,7 +636,7 @@ const Home = ({
                 {/* Newsletter Section */}
                 <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-1/2" />
-                    <div className="max-w-7xl mx-auto px-6 relative z-10">
+                    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
                         <div className="grid lg:grid-cols-2 gap-16 items-center">
                             <div>
                                 <h2 className="text-4xl font-bold mb-6">Stay Informed</h2>

@@ -33,7 +33,7 @@ class HomeController extends Controller
                 'description' => $s->description, 'icon_url' => $s->icon ?? ($s->image_url ?? ''), 'image_url' => $s->image,
             ]),
             'partners' => Partner::active()->get()->map(fn($p) => [
-                'id' => $p->id, 'name' => $p->name, 'url' => $p->url, 'logo_url' => $p->logo_path ? asset('storage/' . $p->logo_path) : ($p->image_url ?? ''),
+                'id' => $p->id, 'name' => $p->name, 'url' => $p->url, 'logo_url' => $p->image,
             ]),
             'projects' => Project::active()->where('is_featured', true)->take(2)->get()->map(fn($p) => [
                 'id' => $p->id, 'title' => $p->title, 'location' => $p->location,
