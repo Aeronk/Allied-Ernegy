@@ -1,5 +1,5 @@
 import AdminLayout from '@/layouts/AdminLayout';
-import { useForm, Link } from '@inertiajs/react';
+import { useForm, Link, router } from '@inertiajs/react';
 import { Field, Input, Textarea, Toggle, ImageUpload, FormCard, PageActions } from '@/components/Admin/FormFields';
 
 export default function HeroSlideForm({ item = null }) {
@@ -19,11 +19,14 @@ export default function HeroSlideForm({ item = null }) {
 
     const submit = (e) => {
         e.preventDefault();
-        const options = { forceFormData: true };
+
         if (isEdit) {
-            post(`/admin/hero-slides/${item.id}?_method=PUT`, options);
+            router.post(`/admin/hero-slides/${item.id}`, {
+                _method: 'PUT',
+                ...data
+            }, { forceFormData: true });
         } else {
-            post('/admin/hero-slides', options);
+            post('/admin/hero-slides', { forceFormData: true });
         }
     };
 

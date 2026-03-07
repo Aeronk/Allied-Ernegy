@@ -5,6 +5,7 @@ import { Field, Input, Textarea, Toggle, ImageUpload, FormCard, PageActions } fr
 export default function PartnerForm({ item = null }) {
     const isEdit = !!item;
     const { data, setData, post, processing, errors } = useForm({
+        _method: isEdit ? 'PUT' : 'POST',
         name: item?.name ?? '',
         description: item?.description ?? '',
         country: item?.country ?? '',
@@ -17,7 +18,7 @@ export default function PartnerForm({ item = null }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(isEdit ? `/admin/partners/${item.id}?_method=PUT` : '/admin/partners', { forceFormData: true });
+        post(isEdit ? `/admin/partners/${item.id}` : '/admin/partners', { forceFormData: true });
     };
 
     return (

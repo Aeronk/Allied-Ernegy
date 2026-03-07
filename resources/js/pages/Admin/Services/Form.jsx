@@ -5,6 +5,7 @@ import { Field, Input, Textarea, Toggle, ImageUpload, FormCard, PageActions } fr
 export default function ServiceForm({ item = null }) {
     const isEdit = !!item;
     const { data, setData, post, processing, errors } = useForm({
+        _method: isEdit ? 'PUT' : 'POST',
         name: item?.name ?? '',
         description: item?.description ?? '',
         order: item?.order ?? 0,
@@ -15,7 +16,7 @@ export default function ServiceForm({ item = null }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(isEdit ? `/admin/services/${item.id}?_method=PUT` : '/admin/services', { forceFormData: true });
+        post(isEdit ? `/admin/services/${item.id}` : '/admin/services', { forceFormData: true });
     };
 
     return (

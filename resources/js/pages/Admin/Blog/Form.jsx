@@ -5,6 +5,7 @@ import { Field, Input, Textarea, Toggle, ImageUpload, FormCard, PageActions } fr
 export default function BlogForm({ item = null }) {
     const isEdit = !!item;
     const { data, setData, post: submit, processing, errors } = useForm({
+        _method: isEdit ? 'PUT' : 'POST',
         title: item?.title ?? '',
         slug: item?.slug ?? '',
         excerpt: item?.excerpt ?? '',
@@ -20,7 +21,7 @@ export default function BlogForm({ item = null }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        submit(isEdit ? `/admin/blog/${item.id}?_method=PUT` : '/admin/blog', { forceFormData: true });
+        submit(isEdit ? `/admin/blog/${item.id}` : '/admin/blog', { forceFormData: true });
     };
 
     const generateSlug = () => {

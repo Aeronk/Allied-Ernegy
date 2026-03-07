@@ -60,10 +60,7 @@ export default function Pages({ contentSettings = {} }) {
         }
 
         import('@inertiajs/react').then(({ router }) => {
-            router.post('/admin/pages', {
-                _method: 'PUT',
-                ...payload
-            }, {
+            router.post('/admin/pages', payload, {
                 forceFormData: true,
                 onSuccess: () => toast.success('Page content updated successfully!'),
                 onError: () => toast.error('Failed to update page content.'),

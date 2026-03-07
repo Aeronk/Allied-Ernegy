@@ -38,6 +38,7 @@ export function ProjectForm({ item = null }) {
     const [currentGalleryUrls, setCurrentGalleryUrls] = useState(item?.gallery_urls || []);
 
     const { data, setData, post, processing, errors } = useForm({
+        _method: isEdit ? 'PUT' : 'POST',
         title: item?.title ?? '',
         slug: item?.slug ?? '',
         description: item?.description ?? '',
@@ -74,7 +75,7 @@ export function ProjectForm({ item = null }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(isEdit ? `/admin/projects/${item.id}?_method=PUT` : '/admin/projects', { forceFormData: true });
+        post(isEdit ? `/admin/projects/${item.id}` : '/admin/projects', { forceFormData: true });
     };
 
     return (

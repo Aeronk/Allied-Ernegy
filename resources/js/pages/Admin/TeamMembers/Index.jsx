@@ -28,6 +28,7 @@ export function TeamIndex({ items = [] }) {
 export function TeamForm({ item = null }) {
     const isEdit = !!item;
     const { data, setData, post, processing, errors } = useForm({
+        _method: isEdit ? 'PUT' : 'POST',
         name: item?.name ?? '',
         role: item?.role ?? '',
         bio: item?.bio ?? '',
@@ -39,7 +40,7 @@ export function TeamForm({ item = null }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(isEdit ? `/admin/team-members/${item.id}?_method=PUT` : '/admin/team-members', { forceFormData: true });
+        post(isEdit ? `/admin/team-members/${item.id}` : '/admin/team-members', { forceFormData: true });
     };
 
     return (
