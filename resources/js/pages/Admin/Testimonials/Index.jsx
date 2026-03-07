@@ -1,46 +1,40 @@
 import React from 'react';
 import { useForm, router } from '@inertiajs/react';
 import AdminLayout from '@/layouts/AdminLayout';
-import { Card, Table, StatusBadge, ActionButtons } from '@/components/Admin/UI';
+import ResourceTable from '@/components/Admin/ResourceTable';
+import { FormCard, Field, Input, Textarea, Toggle } from '@/components/Admin/FormFields';
 
 export default function Index({ items = [] }) {
-    const handleDelete = (id) => {
-        if (confirm('Are you sure you want to delete this testimonial?')) {
-            router.delete(`/admin/testimonials/${id}`);
-        }
-    };
+    const rows = items.map(t => ({
+        id: t.id,
+        cells: [
+            <div className="flex items-center gap-3">
+                {t.image_url ? (
+                    <img src={t.image_url} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
+                ) : (
+                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                        <span className="text-xs">No img</span>
+                    </div>
+                )}
+                <span className="font-medium text-navy-900">{t.name}</span>
+            </div>,
+            t.role || '—',
+            <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${t.is_active ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'}`}>
+                {t.is_active ? 'Active' : 'Hidden'}
+            </span>,
+        ],
+        editHref: `/admin/testimonials/${t.id}/edit`,
+        deleteUrl: `/admin/testimonials/${t.id}`,
+    }));
 
     return (
         <AdminLayout title="Testimonials">
-            <Card>
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold">Manage Testimonials</h2>
-                    <ActionButtons onAdd={() => router.get('/admin/testimonials/create')} />
-                </div>
-
-                <Table
-                    headers={['Author', 'Role', 'Status', 'Actions']}
-                    data={items.map(t => [
-                        <div className="flex items-center gap-3" key={t.id}>
-                            {t.image_url ? (
-                                <img src={t.image_url} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
-                            ) : (
-                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
-                                    <span className="text-xs">No img</span>
-                                </div>
-                            )}
-                            <span className="font-semibold">{t.name}</span>
-                        </div>,
-                        t.role || '-',
-                        <StatusBadge key={`status-${t.id}`} active={t.is_active} />,
-                        <ActionButtons
-                            key={`actions-${t.id}`}
-                            onEdit={() => router.get(`/admin/testimonials/${t.id}/edit`)}
-                            onDelete={() => handleDelete(t.id)}
-                        />
-                    ])}
-                />
-            </Card>
+            <ResourceTable
+                headers={['Author', 'Role', 'Status']}
+                rows={rows}
+                createHref="/admin/testimonials/create"
+                createLabel="Add Testimonial"
+            />
         </AdminLayout>
     );
 }
@@ -75,96 +69,81 @@ export function TestimonialForm({ item = null }) {
 
     return (
         <AdminLayout title={isEdit ? 'Edit Testimonial' : 'Create Testimonial'}>
-            <Card>
-                <form onSubmit={submit} className="space-y-6 max-w-2xl">
-                    <div className="grid grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Author Name <span className="text-red-500">*</span></label>
-                            <input
-                                type="text"
-                                className="w-full border-slate-200 rounded-lg"
+            <FormCard title={isEdit ? 'Edit Testimonial' : 'New Testimonial'}>
+                <form onSubmit={submit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Field label="Author Name" required error={errors.name}>
+                            <Input
                                 value={data.name}
                                 onChange={e => setData('name', e.target.value)}
                             />
-                            {errors.name && <div className="text-red-500 text-sm mt-1">{errors.name}</div>}
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Role / Title</label>
-                            <input
-                                type="text"
-                                className="w-full border-slate-200 rounded-lg"
+                        </Field>
+
+                        <Field label="Role / Title" error={errors.role}>
+                            <Input
                                 value={data.role}
                                 onChange={e => setData('role', e.target.value)}
                             />
-                            {errors.role && <div className="text-red-500 text-sm mt-1">{errors.role}</div>}
-                        </div>
+                        </Field>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Quote <span className="text-red-500">*</span></label>
-                        <textarea
-                            className="w-full border-slate-200 rounded-lg h-32"
+                    <Field label="Quote" required error={errors.quote}>
+                        <Textarea
+                            rows={4}
                             value={data.quote}
                             onChange={e => setData('quote', e.target.value)}
                         />
-                        {errors.quote && <div className="text-red-500 text-sm mt-1">{errors.quote}</div>}
-                    </div>
+                    </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Author Image</label>
+                    <Field label="Author Image" error={errors.image}>
                         {isEdit && item.image_url && (
                             <img src={item.image_url} alt="Current" className="w-20 h-20 rounded-full object-cover mb-3" />
                         )}
                         <input
                             type="file"
-                            className="w-full"
+                            className="w-full text-sm font-body text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-sm file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100"
                             onChange={e => setData('image', e.target.files[0])}
                             accept="image/*"
                         />
-                        {errors.image && <div className="text-red-500 text-sm mt-1">{errors.image}</div>}
-                    </div>
+                    </Field>
 
-                    <div className="grid grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Display Order</label>
-                            <input
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+                        <Field label="Display Order">
+                            <Input
                                 type="number"
-                                className="w-full border-slate-200 rounded-lg"
                                 value={data.order}
                                 onChange={e => setData('order', parseInt(e.target.value))}
                             />
-                        </div>
-                        <div className="flex items-center mt-7">
-                            <label className="flex items-center gap-2 cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    checked={data.is_active}
-                                    onChange={e => setData('is_active', e.target.checked)}
-                                    className="rounded border-slate-300 text-primary focus:ring-primary h-5 w-5"
-                                />
-                                <span className="text-sm font-medium">Publish Active</span>
-                            </label>
+                        </Field>
+
+                        <div className="pb-2">
+                            <Toggle
+                                label=""
+                                description="Publish Active"
+                                checked={data.is_active}
+                                onChange={e => setData('is_active', e.target.checked)}
+                            />
                         </div>
                     </div>
 
-                    <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                    <div className="flex justify-end pt-6 border-t border-slate-100 gap-3">
                         <button
                             type="button"
                             onClick={() => router.get('/admin/testimonials')}
-                            className="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors border border-slate-200"
+                            className="btn-outline px-6 py-2"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             disabled={processing}
-                            className="px-6 py-2 bg-slate-900 text-white rounded-lg hover:bg-primary transition-colors disabled:opacity-50"
+                            className="btn-primary px-8 py-2 disabled:opacity-50"
                         >
                             {processing ? 'Saving...' : 'Save Testimonial'}
                         </button>
                     </div>
                 </form>
-            </Card>
+            </FormCard>
         </AdminLayout>
     );
 }
