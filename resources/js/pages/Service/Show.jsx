@@ -30,7 +30,7 @@ export default function Show({ service, other_services = [], settings = {} }) {
 
                 <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col items-center text-center">
                     <Link href="/offer" className="inline-flex items-center gap-2 text-teal-400 hover:text-white transition-colors mb-8 font-semibold text-sm">
-                        <ArrowLeft className="w-4 h-4" /> Back to Technologies
+                        <ArrowLeft className="w-4 h-4" /> Back to Our Expertise
                     </Link>
 
                     <div className="w-20 h-20 bg-teal-500/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-teal-400 mb-8 border border-teal-500/30 shadow-[0_0_30px_rgba(45,212,191,0.2)]">
@@ -80,7 +80,7 @@ export default function Show({ service, other_services = [], settings = {} }) {
                 <section className="py-24 bg-slate-50 border-t border-slate-100">
                     <div className="max-w-7xl mx-auto px-6">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl font-bold text-navy-900 mb-4">Explore More Technologies</h2>
+                            <h2 className="text-3xl font-bold text-navy-900 mb-4">Explore Our Other Services</h2>
                             <p className="text-slate-600">Discover our other renewable energy solutions.</p>
                         </div>
                         <div className="flex flex-wrap justify-center gap-6">
@@ -106,7 +106,7 @@ export default function Show({ service, other_services = [], settings = {} }) {
             <section className="py-20 bg-navy-900">
                 <div className="max-w-3xl mx-auto text-center px-6">
                     <h2 className="font-display text-4xl text-white mb-5">Interested in {service.name}?</h2>
-                    <p className="text-slate-400 mb-8">Discuss how this technology could work for your project or facility.</p>
+                    <p className="text-slate-400 mb-8">Discuss how this solution could work for your project or facility.</p>
                     <Link href="/contact" className="btn-primary">Contact Our Team →</Link>
                 </div>
             </section>

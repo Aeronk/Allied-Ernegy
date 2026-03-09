@@ -132,7 +132,7 @@ export default function Show({ project, settings = {} }) {
 
                             <div className="bg-navy-900 rounded-2xl p-8 text-center text-white relative overflow-hidden">
                                 <div className="relative z-10">
-                                    <h3 className="text-2xl font-display font-bold mb-4">Interested in our technology?</h3>
+                                    <h3 className="text-2xl font-display font-bold mb-4">Interested in our expertise?</h3>
                                     <p className="text-slate-400 mb-6 text-sm">Contact our engineering team to discuss customized renewable energy solutions for your coastline.</p>
                                     <Link href="/contact" className="btn-primary w-full">Contact Us</Link>
                                 </div>

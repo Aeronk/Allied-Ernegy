@@ -176,7 +176,7 @@ export default function Contact({ settings = {}, flash = {} }) {
                                         <option>Project Enquiry</option>
                                         <option>Partnership Opportunity</option>
                                         <option>Investment</option>
-                                        <option>Technology Information</option>
+                                        <option>Technical Enquiry</option>
                                         <option>Media / Press</option>
                                         <option>General Enquiry</option>
                                     </select>

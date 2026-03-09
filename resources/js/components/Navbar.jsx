@@ -22,9 +22,9 @@ export default function Navbar() {
         },
         {
             href: '/offer',
-            label: 'Our Offer',
+            label: 'Our Expertise',
             children: [
-                { href: '/offer', label: 'All Technologies' },
+                { href: '/offer', label: 'Service Overview' },
                 ...(services.length > 0 ? services.map(s => ({
                     href: `/offer/${s.slug}`,
                     label: s.title || s.name

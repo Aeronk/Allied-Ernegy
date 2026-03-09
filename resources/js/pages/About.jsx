@@ -27,7 +27,7 @@ export default function About({ settings = {}, contentSettings = {} }) {
                             ))}
                         </div>
                         <div className="mt-8 flex gap-4">
-                            <Link href="/offer" className="btn-dark">Our Technologies</Link>
+                            <Link href="/offer" className="btn-dark">Our Expertise</Link>
                             <Link href="/team" className="btn-primary">Meet the Team</Link>
                         </div>
                     </div>

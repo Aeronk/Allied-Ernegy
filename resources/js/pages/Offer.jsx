@@ -13,9 +13,9 @@ export default function Offer({ services = [], settings = {} }) {
     return (
         <PublicLayout title="Our Offer" settings={settings}>
             <PageHeader
-                label="Technologies"
-                title="Our Energy Solutions"
-                subtitle="A comprehensive portfolio of clean energy technologies, from wave power to green hydrogen."
+                label="Our Expertise"
+                title="Electricity, Hydrogen & Oxygen"
+                subtitle="A fully integrated marine energy portfolio delivering clean electricity, green hydrogen, and industrial oxygen."
             />
 
             <section className="py-24 bg-white">
@@ -44,7 +44,7 @@ export default function Offer({ services = [], settings = {} }) {
                                         )}
                                         <div className="absolute top-4 left-4">
                                             <span className="bg-white/90 backdrop-blur-sm text-navy-900 text-xs font-body font-semibold tracking-widest uppercase px-3 py-1.5 rounded-sm shadow-sm">
-                                                {`Technology ${String(i + 1).padStart(2, '0')}`}
+                                                {`Product ${String(i + 1).padStart(2, '0')}`}
                                             </span>
                                         </div>
                                     </div>

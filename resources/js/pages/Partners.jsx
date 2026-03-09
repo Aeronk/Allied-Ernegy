@@ -8,7 +8,7 @@ export default function Partners({ partners = [], settings = {} }) {
             <PageHeader
                 label="Collaborators"
                 title="Our Partner Network"
-                subtitle="Working with world-class organisations to accelerate the deployment of clean wave energy."
+                subtitle="Working with world-class organisations to accelerate the deployment of clean energy solutions."
             />
 
             <section className="py-24 bg-white">

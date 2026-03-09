@@ -393,25 +393,19 @@ const Home = ({
                     bullets={impactBullets}
                 />
 
-                {/* Technology Preview */}
-                <section className="py-24 bg-slate-50 relative">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-500"></div>
-                    <div className="max-w-7xl mx-auto px-8">
-                        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-                            <div className="max-w-2xl">
                                 <div className="w-12 h-1 bg-orange-400 rounded-full mb-4"></div>
-                                <h2 className="text-4xl font-bold text-slate-900 mb-6">Our Core Technologies</h2>
-                                <p className="text-lg text-slate-600">We leverage a diverse range of marine and renewable technologies to provide consistent, zero-emission power.</p>
+                                <h2 className="text-4xl font-bold text-slate-900 mb-6">Our Partners</h2>
+                                <p className="text-lg text-slate-600">We collaborate with world-leading technology providers and strategic ports to deliver consistent, zero-emission power solutions.</p>
                             </div>
-                            <Link href="/offer" className="btn-outline border-primary text-primary hover:bg-primary hover:text-white">
-                                View All Technologies
+                            <Link href="/partners" className="btn-outline border-primary text-primary hover:bg-primary hover:text-white">
+                                View All Partners
                             </Link>
                         </div>
 
                         <div className="grid md:grid-cols-3 gap-8">
-                            {services.map((service, idx) => (
+                            {partners.slice(0, 6).map((partner, idx) => (
                                 <motion.div
-                                    key={service.slug || service.id}
+                                    key={partner.id}
                                     initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
@@ -420,273 +414,230 @@ const Home = ({
                                 >
                                     <div className="h-48 overflow-hidden">
                                         <img
-                                            src={service.image_url}
-                                            alt={service.name}
+                                            src={partner.image_url}
+                                            alt={partner.name}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                             referrerPolicy="no-referrer"
                                         />
                                     </div>
                                     <div className="p-8">
-                                        <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
-                                            {renderIcon(service.icon_url || 'Waves')}
-                                        </div>
-                                        <h3 className="text-xl font-bold text-slate-900 mb-4">{service.name}</h3>
-                                        <p className="text-slate-600 text-sm leading-relaxed mb-6">{service.description}</p>
-                                        <Link href={`/offer/${service.slug}`} className="text-primary font-bold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                                        <h3 className="text-xl font-bold text-slate-900 mb-4">{partner.name}</h3>
+                                        <p className="text-slate-600 text-sm leading-relaxed mb-6">{partner.description}</p>
+                                        <Link href="/partners" className="text-primary font-bold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
                                             Learn more <ArrowRight className="w-4 h-4" />
                                         </Link>
                                     </div>
                                 </motion.div>
                             ))}
                         </div>
-                    </div>
-                </section>
+                    </div >
+                </section >
 
-                <Testimonials testimonials={homeTestimonials} />
+    <Testimonials testimonials={homeTestimonials} />
 
-                {/* Partners Preview */}
-                {partners && partners.length > 0 && (
-                    <section className="py-24 bg-slate-50 border-y border-slate-100 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-slate-100 to-transparent pointer-events-none z-10"></div>
-                        <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-slate-100 to-transparent pointer-events-none z-10"></div>
-                        <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20 relative z-20">
-                            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-                                <div className="max-w-2xl">
-                                    <div className="w-12 h-1 bg-orange-500 rounded-full mb-4"></div>
-                                    <h2 className="text-4xl font-bold text-slate-900 mb-4">Strategic Partners</h2>
-                                    <p className="text-lg text-slate-600">Collaborating with world leaders to drive the clean energy transition.</p>
-                                </div>
-                            </div>
 
-                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-                                {partners.map((partner, idx) => (
-                                    <motion.div
-                                        key={partner.name}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-slate-100 flex items-center justify-center aspect-[3/2] group"
-                                    >
-                                        <a href={partner.url || '#'} target="_blank" rel="noopener noreferrer" className="w-full h-full flex flex-col items-center justify-center gap-3">
-                                            {partner.logo_url ? (
-                                                <img
-                                                    src={partner.logo_url}
-                                                    alt={partner.name}
-                                                    className="max-h-16 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
-                                                />
-                                            ) : (
-                                                <div className="text-center">
-                                                    <span className="font-display font-bold text-lg text-slate-800 group-hover:text-primary transition-colors">{partner.name}</span>
-                                                </div>
-                                            )}
-                                        </a>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-                )}
 
-                {/* Featured Projects */}
-                <section className="py-24 bg-slate-900 text-white relative">
-                    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
-                        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-                            <div className="max-w-2xl">
-                                <div className="w-12 h-1 bg-orange-400 rounded-full mb-4"></div>
-                                <h2 className="text-4xl font-bold mb-6">Featured Projects</h2>
-                                <p className="text-slate-400 text-lg">Real-world applications of our marine energy solutions across the globe.</p>
-                            </div>
-                            <Link href="/projects" className="btn-primary">
-                                View All Projects
-                            </Link>
-                        </div>
-
-                        <div className="grid lg:grid-cols-2 gap-10">
-                            {projects.map((project, idx) => (
-                                <motion.div
-                                    key={project.id}
-                                    initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    className="relative group rounded-3xl overflow-hidden aspect-[16/9]"
-                                >
-                                    <img
-                                        src={project.image_url}
-                                        alt={project.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                        referrerPolicy="no-referrer"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
-                                    <div className="absolute bottom-0 left-0 w-full p-8">
-                                        <div className="flex items-center gap-2 text-orange-400 font-bold text-sm mb-2">
-                                            <MapPin className="w-4 h-4" />
-                                            {project.location}
-                                        </div>
-                                        <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
-                                        <Link href={`/projects/${project.id}`} className="inline-flex items-center gap-2 text-white font-bold hover:text-orange-400 transition-colors">
-                                            Explore Project <ArrowRight className="w-5 h-5" />
-                                        </Link>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* Latest News */}
-                {blogPosts && blogPosts.length > 0 && (
-                    <section className="py-24 bg-white">
-                        <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
-                            <div className="text-center mb-16">
-                                <h2 className="text-4xl font-bold text-slate-900 mb-4">Latest News & Insights</h2>
-                                <p className="text-slate-600">Stay updated with our latest milestones and industry developments.</p>
-                            </div>
-
-                            <div className="grid md:grid-cols-3 gap-8">
-                                {blogPosts.map((post, idx) => (
-                                    <motion.div
-                                        key={post.id}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        className="group"
-                                    >
-                                        <div className="aspect-video rounded-2xl overflow-hidden mb-6">
-                                            <img
-                                                src={post.image_url}
-                                                alt={post.title}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                                referrerPolicy="no-referrer"
-                                            />
-                                        </div>
-                                        <div className="flex items-center gap-4 text-xs text-slate-400 mb-3">
-                                            <div className="flex items-center gap-1">
-                                                <Calendar className="w-3 h-3" />
-                                                {post.formatted_date || post.published_at}
-                                            </div>
-                                            <div className="flex items-center gap-1">
-                                                <User className="w-3 h-3" />
-                                                {post.author}
-                                            </div>
-                                        </div>
-                                        <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors">
-                                            <Link href={`/blog/${post.slug || post.id}`}>{post.title}</Link>
-                                        </h3>
-                                        <p className="text-slate-600 text-sm line-clamp-2 mb-4">{post.excerpt}</p>
-                                        <Link href={`/blog/${post.slug || post.id}`} className="text-primary font-bold text-sm inline-flex items-center gap-2">
-                                            Read More <ArrowRight className="w-4 h-4" />
-                                        </Link>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-                )}
-
-                <FAQPreview faqs={homeFaqs} />
-
-                {/* Global Presence */}
-                <section className="py-24 bg-slate-50 overflow-hidden">
-                    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
-                        <div className="grid lg:grid-cols-2 gap-16 items-center">
-                            <motion.div
-                                initial={{ opacity: 0, x: -50 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                            >
-                                <h2 className="text-4xl font-bold text-slate-900 mb-6">Global Presence</h2>
-                                <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                                    Headquartered in Aberdeen, Scotland, Allied Energies is expanding its footprint across the globe, bringing clean marine energy to coastal regions in Europe, Africa, and beyond.
-                                </p>
-                                <div className="grid sm:grid-cols-2 gap-8">
-                                    {homeGlobal.map((regionData, idx) => (
-                                        <div key={idx}>
-                                            <h4 className="font-bold text-primary mb-4 flex items-center gap-2">
-                                                <MapPin className="w-5 h-5" /> {regionData.region}
-                                            </h4>
-                                            <ul className="space-y-2 text-slate-600 text-sm">
-                                                {regionData.locations.map((loc, lIdx) => (
-                                                    <li key={lIdx}>• {loc}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    ))}
-                                </div>
-                            </motion.div>
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                className="relative"
-                            >
-                                <div className="aspect-square bg-slate-200 rounded-full flex items-center justify-center p-12 relative">
-                                    <div className="absolute inset-0 bg-primary/5 rounded-full animate-ping" />
-                                    <Globe className="w-full h-full text-primary/20" />
-                                    <div className="absolute top-1/4 left-1/3 w-4 h-4 bg-primary rounded-full shadow-lg shadow-primary/50 animate-bounce" />
-                                    <div className="absolute bottom-1/3 right-1/4 w-4 h-4 bg-secondary rounded-full shadow-lg shadow-secondary/50 animate-bounce delay-150" />
-                                    <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-primary rounded-full shadow-lg shadow-primary/50 animate-bounce delay-300" />
-                                </div>
-                            </motion.div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Newsletter Section */}
-                <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-1/2" />
-                    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
-                        <div className="grid lg:grid-cols-2 gap-16 items-center">
-                            <div>
-                                <h2 className="text-4xl font-bold mb-6">Stay Informed</h2>
-                                <p className="text-lg text-slate-400 mb-0">
-                                    Subscribe to our newsletter to receive the latest updates on our projects, technology breakthroughs, and the future of marine energy.
-                                </p>
-                            </div>
-                            <div>
-                                <form className="flex flex-col sm:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
-                                    <input
-                                        type="email"
-                                        placeholder="Enter your email"
-                                        className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary transition-colors"
-                                        required
-                                    />
-                                    <button type="submit" className="btn-primary px-8 py-4 whitespace-nowrap">
-                                        Subscribe Now
-                                    </button>
-                                </form>
-                                <p className="text-xs text-slate-500 mt-4">
-                                    By subscribing, you agree to our Privacy Policy and consent to receive updates from Allied Energies.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Final CTA */}
-                <section className="py-24 bg-primary relative overflow-hidden">
-                    <div className="absolute inset-0 opacity-10">
-                        <Waves className="absolute -top-20 -left-20 w-96 h-96 text-white rotate-12" />
-                        <Waves className="absolute -bottom-20 -right-20 w-96 h-96 text-white -rotate-12" />
-                    </div>
-                    <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-                        <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">Ready to Power a Sustainable Future?</h2>
-                        <p className="text-xl text-white/80 mb-10 leading-relaxed">
-                            Join us in our mission to harness the power of the ocean. Whether you're a potential partner, investor, or collaborator, we'd love to hear from you.
-                        </p>
-                        <div className="flex flex-wrap justify-center gap-4">
-                            <Link href="/contact" className="px-8 py-4 bg-white text-primary font-bold rounded-xl hover:bg-slate-100 transition-all shadow-xl">
-                                Get in Touch
-                            </Link>
-                            <Link href="/partners" className="px-8 py-4 bg-primary-dark border border-white/20 text-white font-bold rounded-xl hover:bg-white/10 transition-all">
-                                Our Partners
-                            </Link>
-                        </div>
-                    </div>
-                </section>
+{/* Featured Projects */ }
+<section className="py-24 bg-slate-900 text-white relative">
+    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+            <div className="max-w-2xl">
+                <div className="w-12 h-1 bg-orange-400 rounded-full mb-4"></div>
+                <h2 className="text-4xl font-bold mb-6">Featured Projects</h2>
+                <p className="text-slate-400 text-lg">Real-world applications of our marine energy solutions across the globe.</p>
             </div>
-        </PublicLayout>
+            <Link href="/projects" className="btn-primary">
+                View All Projects
+            </Link>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-10">
+            {projects.map((project, idx) => (
+                <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    className="relative group rounded-3xl overflow-hidden aspect-[16/9]"
+                >
+                    <img
+                        src={project.image_url}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
+                    <div className="absolute bottom-0 left-0 w-full p-8">
+                        <div className="flex items-center gap-2 text-orange-400 font-bold text-sm mb-2">
+                            <MapPin className="w-4 h-4" />
+                            {project.location}
+                        </div>
+                        <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
+                        <Link href={`/projects/${project.id}`} className="inline-flex items-center gap-2 text-white font-bold hover:text-orange-400 transition-colors">
+                            Explore Project <ArrowRight className="w-5 h-5" />
+                        </Link>
+                    </div>
+                </motion.div>
+            ))}
+        </div>
+    </div>
+</section>
+
+{/* Latest News */ }
+{
+    blogPosts && blogPosts.length > 0 && (
+        <section className="py-24 bg-white">
+            <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
+                <div className="text-center mb-16">
+                    <h2 className="text-4xl font-bold text-slate-900 mb-4">Latest News & Insights</h2>
+                    <p className="text-slate-600">Stay updated with our latest milestones and industry developments.</p>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-8">
+                    {blogPosts.map((post, idx) => (
+                        <motion.div
+                            key={post.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="group"
+                        >
+                            <div className="aspect-video rounded-2xl overflow-hidden mb-6">
+                                <img
+                                    src={post.image_url}
+                                    alt={post.title}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    referrerPolicy="no-referrer"
+                                />
+                            </div>
+                            <div className="flex items-center gap-4 text-xs text-slate-400 mb-3">
+                                <div className="flex items-center gap-1">
+                                    <Calendar className="w-3 h-3" />
+                                    {post.formatted_date || post.published_at}
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <User className="w-3 h-3" />
+                                    {post.author}
+                                </div>
+                            </div>
+                            <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors">
+                                <Link href={`/blog/${post.slug || post.id}`}>{post.title}</Link>
+                            </h3>
+                            <p className="text-slate-600 text-sm line-clamp-2 mb-4">{post.excerpt}</p>
+                            <Link href={`/blog/${post.slug || post.id}`} className="text-primary font-bold text-sm inline-flex items-center gap-2">
+                                Read More <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    )
+}
+
+<FAQPreview faqs={homeFaqs} />
+
+{/* Global Presence */ }
+<section className="py-24 bg-slate-50 overflow-hidden">
+    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+            >
+                <h2 className="text-4xl font-bold text-slate-900 mb-6">Global Presence</h2>
+                <p className="text-lg text-slate-600 mb-8 leading-relaxed">
+                    Headquartered in Aberdeen, Scotland, Allied Energies is expanding its footprint across the globe, bringing clean marine energy to coastal regions in Europe, Africa, and beyond.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-8">
+                    {homeGlobal.map((regionData, idx) => (
+                        <div key={idx}>
+                            <h4 className="font-bold text-primary mb-4 flex items-center gap-2">
+                                <MapPin className="w-5 h-5" /> {regionData.region}
+                            </h4>
+                            <ul className="space-y-2 text-slate-600 text-sm">
+                                {regionData.locations.map((loc, lIdx) => (
+                                    <li key={lIdx}>• {loc}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative"
+            >
+                <div className="aspect-square bg-slate-200 rounded-full flex items-center justify-center p-12 relative">
+                    <div className="absolute inset-0 bg-primary/5 rounded-full animate-ping" />
+                    <Globe className="w-full h-full text-primary/20" />
+                    <div className="absolute top-1/4 left-1/3 w-4 h-4 bg-primary rounded-full shadow-lg shadow-primary/50 animate-bounce" />
+                    <div className="absolute bottom-1/3 right-1/4 w-4 h-4 bg-secondary rounded-full shadow-lg shadow-secondary/50 animate-bounce delay-150" />
+                    <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-primary rounded-full shadow-lg shadow-primary/50 animate-bounce delay-300" />
+                </div>
+            </motion.div>
+        </div>
+    </div>
+</section>
+
+{/* Newsletter Section */ }
+<section className="py-24 bg-slate-900 text-white relative overflow-hidden">
+    <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -skew-x-12 translate-x-1/2" />
+    <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-16 xl:px-20">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 className="text-4xl font-bold mb-6">Stay Informed</h2>
+                <p className="text-lg text-slate-400 mb-0">
+                    Subscribe to our newsletter to receive the latest updates on our projects, technology breakthroughs, and the future of marine energy.
+                </p>
+            </div>
+            <div>
+                <form className="flex flex-col sm:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
+                    <input
+                        type="email"
+                        placeholder="Enter your email"
+                        className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary transition-colors"
+                        required
+                    />
+                    <button type="submit" className="btn-primary px-8 py-4 whitespace-nowrap">
+                        Subscribe Now
+                    </button>
+                </form>
+                <p className="text-xs text-slate-500 mt-4">
+                    By subscribing, you agree to our Privacy Policy and consent to receive updates from Allied Energies.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{/* Final CTA */ }
+<section className="py-24 bg-primary relative overflow-hidden">
+    <div className="absolute inset-0 opacity-10">
+        <Waves className="absolute -top-20 -left-20 w-96 h-96 text-white rotate-12" />
+        <Waves className="absolute -bottom-20 -right-20 w-96 h-96 text-white -rotate-12" />
+    </div>
+    <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">Ready to Power a Sustainable Future?</h2>
+        <p className="text-xl text-white/80 mb-10 leading-relaxed">
+            Join us in our mission to harness the power of the ocean. Whether you're a potential partner, investor, or collaborator, we'd love to hear from you.
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/contact" className="px-8 py-4 bg-white text-primary font-bold rounded-xl hover:bg-slate-100 transition-all shadow-xl">
+                Get in Touch
+            </Link>
+            <Link href="/partners" className="px-8 py-4 bg-primary-dark border border-white/20 text-white font-bold rounded-xl hover:bg-white/10 transition-all">
+                Our Partners
+            </Link>
+        </div>
+    </div>
+</section>
+            </div >
+        </PublicLayout >
     );
 };
 
