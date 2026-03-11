@@ -392,7 +392,66 @@ const Home = ({
                     desc={impactDesc}
                     bullets={impactBullets}
                 />
+                {/* Core Services */}
+                <section className="py-24 bg-white relative">
+                    <div className="max-w-7xl mx-auto px-8">
+                        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                            <div className="max-w-2xl">
+                                <div className="w-12 h-1 bg-orange-400 rounded-full mb-4"></div>
+                                <h2 className="text-4xl font-bold text-slate-900 mb-6">What We Produce</h2>
+                                <p className="text-lg text-slate-600">Every harbour we work with can produce all three of our core energy products — a fully integrated marine energy solution.</p>
+                            </div>
+                            <Link href="/offer" className="btn-outline border-primary text-primary hover:bg-primary hover:text-white flex-shrink-0">
+                                Our Expertise
+                            </Link>
+                        </div>
 
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {services.map((service, idx) => {
+                                const iconMap = { Zap: '⚡', Droplets: '💧', Factory: '🏭' };
+                                const colorMap = [
+                                    { bg: 'from-amber-50 to-orange-50', accent: 'bg-amber-400', text: 'text-amber-600', border: 'border-amber-100' },
+                                    { bg: 'from-sky-50 to-blue-50', accent: 'bg-sky-400', text: 'text-sky-600', border: 'border-sky-100' },
+                                    { bg: 'from-slate-50 to-teal-50', accent: 'bg-teal-500', text: 'text-teal-600', border: 'border-teal-100' },
+                                ];
+                                const colors = colorMap[idx] || colorMap[0];
+                                return (
+                                    <motion.div
+                                        key={service.slug || service.id}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: idx * 0.15 }}
+                                        className={`group relative bg-gradient-to-br ${colors.bg} rounded-3xl p-10 border ${colors.border} hover:shadow-2xl transition-all duration-500 overflow-hidden`}
+                                    >
+                                        <div className={`absolute top-0 right-0 w-32 h-32 ${colors.accent} opacity-10 rounded-full -translate-y-8 translate-x-8`}></div>
+                                        <div className={`w-16 h-16 ${colors.accent} bg-opacity-20 rounded-2xl flex items-center justify-center text-3xl mb-8`}>
+                                            {iconMap[service.icon] || '⚡'}
+                                        </div>
+                                        <div className={`inline-block text-xs font-bold uppercase tracking-widest ${colors.text} bg-white/60 px-3 py-1 rounded-full mb-4`}>
+                                            Product {String(idx + 1).padStart(2, '0')}
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-slate-900 mb-4 leading-tight">{service.title || service.name}</h3>
+                                        <p className="text-slate-600 leading-relaxed mb-8 text-sm">{service.description}</p>
+                                        <Link
+                                            href={`/offer/${service.slug}`}
+                                            className={`inline-flex items-center gap-2 font-bold text-sm ${colors.text} group-hover:gap-3 transition-all`}
+                                        >
+                                            Learn more <ArrowRight className="w-4 h-4" />
+                                        </Link>
+                                    </motion.div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Partners Preview */}
+                <section className="py-24 bg-slate-50 relative">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-500"></div>
+                    <div className="max-w-7xl mx-auto px-8">
+                        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                            <div className="max-w-2xl">
                                 <div className="w-12 h-1 bg-orange-400 rounded-full mb-4"></div>
                                 <h2 className="text-4xl font-bold text-slate-900 mb-6">Our Partners</h2>
                                 <p className="text-lg text-slate-600">We collaborate with world-leading technology providers and strategic ports to deliver consistent, zero-emission power solutions.</p>
@@ -430,8 +489,8 @@ const Home = ({
                                 </motion.div>
                             ))}
                         </div>
-                    </div >
-                </section >
+                    </div>
+                </section>
 
     <Testimonials testimonials={homeTestimonials} />
 
