@@ -471,20 +471,22 @@ const Home = ({
                                     transition={{ delay: idx * 0.1 }}
                                     className="group bg-white rounded-2xl border border-slate-100 hover:shadow-xl hover:border-primary/20 transition-all duration-500 overflow-hidden"
                                 >
-                                    {/* Logo area */}
-                                    <div className="h-36 bg-white flex items-center justify-center p-6 border-b border-slate-100">
-                                        {partner.logo_url ? (
-                                            <img
-                                                src={partner.logo_url}
-                                                alt={partner.name}
-                                                className="max-h-20 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
-                                                referrerPolicy="no-referrer"
-                                            />
-                                        ) : (
-                                            <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary font-bold text-2xl">
-                                                {partner.name.charAt(0)}
-                                            </div>
-                                        )}
+                                    {/* Logo icon */}
+                                    <div className="pt-8 pb-4 flex justify-center">
+                                        <div className="w-20 h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300 overflow-hidden">
+                                            {partner.logo_url ? (
+                                                <img
+                                                    src={partner.logo_url}
+                                                    alt={partner.name}
+                                                    className="w-full h-full object-contain p-2 filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                                                    referrerPolicy="no-referrer"
+                                                />
+                                            ) : (
+                                                <span className="text-primary font-bold text-2xl">
+                                                    {partner.name.charAt(0)}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                     {/* Info area */}
                                     <div className="p-6">
