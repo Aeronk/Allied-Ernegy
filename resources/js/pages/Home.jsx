@@ -456,12 +456,12 @@ const Home = ({
                                 <h2 className="text-4xl font-bold text-slate-900 mb-6">Our Partners</h2>
                                 <p className="text-lg text-slate-600">We collaborate with world-leading technology providers and strategic ports to deliver consistent, zero-emission power solutions.</p>
                             </div>
-                            <Link href="/partners" className="btn-outline border-primary text-primary hover:bg-primary hover:text-white">
+                            <Link href="/partners" className="btn-outline border-primary text-primary hover:bg-primary hover:text-white flex-shrink-0">
                                 View All Partners
                             </Link>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-8">
+                        <div className="grid md:grid-cols-3 gap-6">
                             {partners.slice(0, 6).map((partner, idx) => (
                                 <motion.div
                                     key={partner.id}
@@ -469,21 +469,31 @@ const Home = ({
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: idx * 0.1 }}
-                                    className="group bg-white rounded-3xl overflow-hidden border border-slate-100 hover:shadow-xl transition-all duration-500"
+                                    className="group bg-white rounded-2xl border border-slate-100 hover:shadow-xl hover:border-primary/20 transition-all duration-500 overflow-hidden"
                                 >
-                                    <div className="h-48 overflow-hidden">
-                                        <img
-                                            src={partner.image_url}
-                                            alt={partner.name}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                            referrerPolicy="no-referrer"
-                                        />
+                                    {/* Logo area */}
+                                    <div className="h-36 bg-white flex items-center justify-center p-6 border-b border-slate-100">
+                                        {partner.logo_url ? (
+                                            <img
+                                                src={partner.logo_url}
+                                                alt={partner.name}
+                                                className="max-h-20 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                                                referrerPolicy="no-referrer"
+                                            />
+                                        ) : (
+                                            <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary font-bold text-2xl">
+                                                {partner.name.charAt(0)}
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className="p-8">
-                                        <h3 className="text-xl font-bold text-slate-900 mb-4">{partner.name}</h3>
-                                        <p className="text-slate-600 text-sm leading-relaxed mb-6">{partner.description}</p>
-                                        <Link href="/partners" className="text-primary font-bold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
-                                            Learn more <ArrowRight className="w-4 h-4" />
+                                    {/* Info area */}
+                                    <div className="p-6">
+                                        <h3 className="text-base font-bold text-slate-900 mb-2">{partner.name}</h3>
+                                        {partner.description && (
+                                            <p className="text-slate-500 text-sm leading-relaxed line-clamp-2 mb-4">{partner.description}</p>
+                                        )}
+                                        <Link href="/partners" className="text-primary font-bold text-sm flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                                            Learn more <ArrowRight className="w-3.5 h-3.5" />
                                         </Link>
                                     </div>
                                 </motion.div>
