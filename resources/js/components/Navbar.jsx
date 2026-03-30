@@ -141,9 +141,7 @@ export default function Navbar() {
                             )}
                         </div>
                     ))}
-                    <Link href="/contact" className="ml-4 btn-primary text-xs py-2.5 px-5">
-                        Get in Touch
-                    </Link>
+                   
                 </nav>
 
                 {/* Mobile hamburger */}

@@ -79,6 +79,7 @@ class AlliedEnergySeeder extends Seeder
 
     private function seedServices(): void
     {
+        Service::query()->delete();
         $services = [
             [
                 'title' => "Electricity Production",
@@ -116,6 +117,7 @@ class AlliedEnergySeeder extends Seeder
 
     private function seedPartners(): void
     {
+        Partner::query()->delete();
         $partners = [
             [
                 'name' => "Seaturns",
